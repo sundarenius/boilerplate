@@ -1,4 +1,4 @@
-# TEST
+# BOILERPLATE CLI
 
 ...information/introduction...
 
