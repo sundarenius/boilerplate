@@ -2,8 +2,8 @@ import fs from 'fs';
 import inquirer from 'inquirer';
 import { QuestionsAndAnswers } from '@/types/types';
 
-type TerminalQuestions = (q: QuestionsAndAnswers[]) => QuestionsAndAnswers
-export const terminalQuestions: TerminalQuestions = async (questions) => {
+type TerminalQandA = (q: QuestionsAndAnswers[]) => QuestionsAndAnswers
+export const terminalQandA: TerminalQandA = async (questions) => {
   const answers = await inquirer.prompt(questions);
   return answers;
 };

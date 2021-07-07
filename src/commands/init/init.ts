@@ -1,30 +1,55 @@
 import {
-  terminalQuestions,
-  createFile,
-  createJsonOutPut,
+  terminalQandA,
+  // createFile,
+  // createJsonOutPut,
 } from '@/utils/helpers';
 import { QuestionsAndAnswers, ProjectTypes } from '@/types/types';
 import { frontend } from './followUpQuestions/frontend';
+import { cli } from './followUpQuestions/cli';
+import { frontendApi } from './followUpQuestions/frontendApi';
+import { monorepo } from './followUpQuestions/monorepo';
+import { initReact } from './initReact';
 
 const projectTypes: ProjectTypes[] = Object.values(ProjectTypes);
 
-const createTemplateFile = (fileName: string, feedback: QuestionsAndAnswers) => {
-  createFile(`${fileName}.json`, createJsonOutPut(feedback));
-};
+// const createTemplateFile = (fileName: string, feedback: QuestionsAndAnswers) => {
+//   createFile(`${fileName}.json`, createJsonOutPut(feedback));
+// };
 
-const specificQuestions = () => ({
+const specificQuestions: () => Record<string, () => QuestionsAndAnswers[]> = () => ({
   [ProjectTypes.REACT]: () => frontend(ProjectTypes.REACT),
   [ProjectTypes.VUE]: () => frontend(ProjectTypes.VUE),
-  [ProjectTypes.CLI]: () => console.log('CLI not available yet'),
-  [ProjectTypes.FRONTEND_API]: () => console.log('Frontend api not available yet'),
-  [ProjectTypes.MONOREPO]: () => console.log('Monorepo not available yet'),
+  [ProjectTypes.CLI]: () => cli(),
+  [ProjectTypes.FRONTEND_API]: () => frontendApi(),
+  [ProjectTypes.MONOREPO]: () => monorepo(),
 });
 
-const typeOfProject = (t: string) => {
+const typeCaseInsesitive = (t: string): string => {
   const type:ProjectTypes = projectTypes.filter((val: string) =>
     val.toLowerCase() === t.toLowerCase())[0];
+  return type;
+};
 
-  return specificQuestions()[type]();
+const create = (type:string, followUpAnswers: Record<string, any>):void => {
+  switch (type) {
+    case ProjectTypes.REACT:
+      initReact(followUpAnswers);
+      break;
+    case ProjectTypes.VUE:
+      console.log(type);
+      break;
+    case ProjectTypes.FRONTEND_API:
+      console.log(type);
+      break;
+    case ProjectTypes.CLI:
+      console.log(type);
+      break;
+    case ProjectTypes.MONOREPO:
+      console.log(type);
+      break;
+    default:
+      break;
+  }
 };
 
 export const init = async () => {
@@ -42,9 +67,12 @@ export const init = async () => {
     },
   ];
 
-  const { type } = await terminalQuestions(questions);
+  const { type } = await terminalQandA(questions);
   console.log(`Great choice, will create a ${type} project for you`);
   console.log('Just a few more questions ...');
-  const followUpQuestions = typeOfProject(type);
-  console.log(followUpQuestions);
+
+  const projectType:string = typeCaseInsesitive(type);
+  const followUpQuestions:QuestionsAndAnswers[] = specificQuestions()[projectType]();
+  const followUpAnswers = await terminalQandA(followUpQuestions);
+  create(projectType, followUpAnswers);
 };
