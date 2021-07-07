@@ -1,5 +1,6 @@
 import { QuestionsAndAnswers } from '@/types/types';
 import { terminalQandA } from '@/utils/helpers';
+import inquirer from 'inquirer';
 
 /*
  * Questions for frontend:
@@ -41,8 +42,37 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   {
     type: 'confirm',
     name: 'eslint',
-    message: 'Wanna use eslint?',
+    message: 'Wanna use a linter (eslint)?',
     default: true,
+  },
+  {
+    type: 'confirm',
+    name: 'stateManagement',
+    message: 'Do you need global state management?',
+    default: true,
+  },
+  {
+    type: 'list',
+    name: 'language',
+    message: 'Pick a CSS pre-processor',
+    choices: ['Sass/SCSS', 'Less', 'Stylus', 'none'],
+    filter(val: any) {
+      return val.toLowerCase();
+    },
+  },
+  {
+    type: 'checkbox',
+    message: 'Testing (optional) ',
+    name: 'testing',
+    choices: [
+      new inquirer.Separator(' = Select with spacebar, finish with enter = '),
+      {
+        name: 'Unit (jest)',
+      },
+      {
+        name: 'E2E (cypress)',
+      },
+    ],
   },
 ]);
 
@@ -58,7 +88,6 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
         type: 'confirm',
         name: 'routing',
         message: 'Wanna use routing for your SPA?',
-        choices: ['Hash', 'History'],
         default: true,
       },
     ]);
@@ -69,13 +98,11 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
     if (res.routing) {
       const res = await terminalQandA([
         {
-          type: 'list',
-          name: 'routingType',
-          message: 'Router with hash or history mode(history needs server configurations)',
-          choices: ['Hash', 'History'],
-          filter(val: any) {
-            return val.toLowerCase();
-          },
+          type: 'confirm',
+          name: 'historyRouter',
+          // eslint-disable-next-line max-len
+          message: 'Use history mode for router? (Requires proper server setup for index fallback in production)',
+          default: true,
         },
       ]);
       additionalAnswers = {
