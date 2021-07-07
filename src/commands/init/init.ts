@@ -4,6 +4,7 @@ import {
   createJsonOutPut,
 } from '@/utils/helpers';
 import { QuestionsAndAnswers, ProjectTypes } from '@/types/types';
+import { frontend } from './followUpQuestions/frontend';
 
 const projectTypes: ProjectTypes[] = Object.values(ProjectTypes);
 
@@ -12,32 +13,18 @@ const createTemplateFile = (fileName: string, feedback: QuestionsAndAnswers) => 
 };
 
 const specificQuestions = () => ({
-  [ProjectTypes.REACT]: () => console.log('frontend specificQuestions'),
-  [ProjectTypes.VUE]: () => console.log(specificQuestions()[ProjectTypes.REACT]()),
-  [ProjectTypes.CLI]: () => console.log('CLI specificQuestions'),
-  [ProjectTypes.FRONTEND_API]: () => console.log('frontend api specificQuestions'),
-  [ProjectTypes.MONOREPO]: () => console.log('monorepo specificQuestions'),
+  [ProjectTypes.REACT]: () => frontend(ProjectTypes.REACT),
+  [ProjectTypes.VUE]: () => frontend(ProjectTypes.VUE),
+  [ProjectTypes.CLI]: () => console.log('CLI not available yet'),
+  [ProjectTypes.FRONTEND_API]: () => console.log('Frontend api not available yet'),
+  [ProjectTypes.MONOREPO]: () => console.log('Monorepo not available yet'),
 });
 
 const typeOfProject = (t: string) => {
   const type:ProjectTypes = projectTypes.filter((val: string) =>
     val.toLowerCase() === t.toLowerCase())[0];
 
-  console.log(type);
-  switch (type) {
-    case ProjectTypes.REACT:
-      return specificQuestions()[ProjectTypes.REACT]();
-    case ProjectTypes.VUE:
-      return specificQuestions()[ProjectTypes.VUE]();
-    case ProjectTypes.CLI:
-      return specificQuestions()[ProjectTypes.CLI]();
-    case ProjectTypes.FRONTEND_API:
-      return specificQuestions()[ProjectTypes.FRONTEND_API]();
-    case ProjectTypes.MONOREPO:
-      return specificQuestions()[ProjectTypes.MONOREPO]();
-    default:
-      return null;
-  }
+  return specificQuestions()[type]();
 };
 
 export const init = async () => {
