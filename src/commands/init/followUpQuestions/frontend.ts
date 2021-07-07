@@ -6,9 +6,11 @@ import inquirer from 'inquirer';
  * Questions for frontend:
  * 1. appType(spa/ssr)
  * 2. language
- * 3. routing (if SPA, if SSR then there's need to ask)
+ * 3. routing (if SPA, if SSR then there's no need to ask)
  * 4. eslint
  */
+
+// Move all types into types/frontend
 
 enum AppTypes {
   SPA = 'SPA',
