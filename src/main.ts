@@ -1,11 +1,22 @@
-import { hello } from '@/hello/hello'
-import { X } from '@/types/types'
-
-console.log(X)
-
-hello()
+import { CommandInitArgument } from '@/types/types';
+import {
+  init,
+  build,
+  add,
+} from '@/commands/commands';
 
 export const start = (arg: string|undefined) => {
-  console.log('start')
-  console.log(arg)
-}
+  switch (arg) {
+    case CommandInitArgument.INIT:
+      init();
+      break;
+    case CommandInitArgument.BUILD:
+      build();
+      break;
+    case CommandInitArgument.ADD:
+      add();
+      break;
+    default:
+      break;
+  }
+};
