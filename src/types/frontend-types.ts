@@ -52,3 +52,9 @@ export enum VueUiFrameWorks {
 export interface RoutesData {
   name: string,
 }
+
+export interface GlobalState {
+  name: string,
+  state: Record<string, any>,
+  dispatchables: Array<string> | 'all'
+}

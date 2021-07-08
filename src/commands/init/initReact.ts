@@ -9,10 +9,13 @@ import {
   // CssPreProcessor,
   // Testing,
   // ESLint,
-  RoutesData,
   NameOptions,
 } from '@/types/frontend-types';
 import { additionalFrontEndQuestions } from './followUpQuestions/frontend';
+import {
+  initialState,
+  initialRoute,
+} from './initialData';
 
 const createTemplateFile = (fileName: string, feedback: QuestionsAndAnswers) => {
   createFile(`${fileName}.json`, createJsonOutPut(feedback));
@@ -25,16 +28,11 @@ const completeData = (data: Record<string, any>) => {
 
   // Check if we should include routes options
   if (data[NameOptions.ROUTING] || (data[NameOptions.APP_TYPE] === AppTypes.SSR)) {
-    const routes:Record<string, string|RoutesData> = {
-      _info: 'It is good practice to name pages and components as PascalCase',
-      routeOne: {
-        name: 'RouteOne',
-      },
-      routeTwo: {
-        name: 'RouteTwo',
-      },
-    };
-    allData.routes = routes;
+    allData.routes = initialRoute();
+  }
+
+  if (data[NameOptions.STATE_MANAGEMENT]) {
+    allData.globalState = initialState();
   }
 
   return allData;
