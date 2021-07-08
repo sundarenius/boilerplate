@@ -19,6 +19,8 @@ import inquirer from 'inquirer';
  * 5. State management
  * 6. Css preprocessor
  * 7. Testing tools (unit/e2e)
+ * 8. UI framework
+ * 9. Docker
  */
 
 export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
