@@ -15,3 +15,11 @@ export enum ProjectTypes {
   CLI = 'CLI',
   MONOREPO = 'Monorepo'
 }
+
+export enum JsonTemplateFileNames {
+  BOILERPLATE_REACT = 'boilerplate-react',
+  BOILERPLATE_VUE = 'boilerplate-vue',
+  BOILERPLATE_API = 'boilerplate-api',
+  BOILERPLATE_CLI = 'boilerplate-cli',
+  BOILERPLATE_MONOREPO = 'boilerplate-monorepo'
+}

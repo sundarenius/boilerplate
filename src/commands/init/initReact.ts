@@ -2,7 +2,7 @@ import {
   createFile,
   createJsonOutPut,
 } from '@/utils/helpers';
-import { ProjectTypes, QuestionsAndAnswers } from '@/types/types';
+import { ProjectTypes, QuestionsAndAnswers, JsonTemplateFileNames } from '@/types/types';
 import {
   AppTypes,
   // Languages,
@@ -47,5 +47,5 @@ export const initReact = async (followUpAnswers: Record<string, any>) => {
     ...followUpAnswers,
     ...additionalAnswers,
   });
-  createTemplateFile('boilerplate-react', allData);
+  createTemplateFile(JsonTemplateFileNames.BOILERPLATE_REACT, allData);
 };
