@@ -84,6 +84,12 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
       },
     ],
   },
+  {
+    type: 'confirm',
+    name: NameOptions.INCLUDE_DOCKER,
+    message: 'Do you wanna include docker?',
+    default: true,
+  },
 ]);
 
 type AdditionalFrontEndQuestions = (followUpAnswers: Record<string, any>) => Promise<Record<string, any>>

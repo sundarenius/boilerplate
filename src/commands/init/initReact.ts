@@ -2,13 +2,14 @@ import {
   createFile,
   createJsonOutPut,
 } from '@/utils/helpers';
-import { QuestionsAndAnswers } from '@/types/types';
+import { ProjectTypes, QuestionsAndAnswers } from '@/types/types';
 import {
   AppTypes,
   // Languages,
   // CssPreProcessor,
   // Testing,
   // ESLint,
+  CompleteData,
   NameOptions,
 } from '@/types/frontend-types';
 import { additionalFrontEndQuestions } from './followUpQuestions/frontend';
@@ -21,9 +22,11 @@ const createTemplateFile = (fileName: string, feedback: QuestionsAndAnswers) => 
   createFile(`${fileName}.json`, createJsonOutPut(feedback));
 };
 
-const completeData = (data: Record<string, any>) => {
-  const allData = {
+const completeData = (data: Record<string, any>):CompleteData => {
+  const allData: CompleteData = {
+    framework: ProjectTypes.REACT,
     ...data,
+    canOverWriteApp: true,
   };
 
   // Check if we should include routes options
