@@ -1,8 +1,4 @@
-import {
-  terminalQandA,
-  // createFile,
-  // createJsonOutPut,
-} from '@/utils/helpers';
+import { terminalQandA } from '@/utils/helpers';
 import { QuestionsAndAnswers, ProjectTypes } from '@/types/types';
 import { frontend } from './followUpQuestions/frontend';
 import { cli } from './followUpQuestions/cli';
@@ -11,10 +7,6 @@ import { monorepo } from './followUpQuestions/monorepo';
 import { initReact } from './initReact';
 
 const projectTypes: ProjectTypes[] = Object.values(ProjectTypes);
-
-// const createTemplateFile = (fileName: string, feedback: QuestionsAndAnswers) => {
-//   createFile(`${fileName}.json`, createJsonOutPut(feedback));
-// };
 
 const specificQuestions: () => Record<string, () => QuestionsAndAnswers[]> = () => ({
   [ProjectTypes.REACT]: () => frontend(ProjectTypes.REACT),

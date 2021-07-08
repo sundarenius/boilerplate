@@ -46,5 +46,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['warn'],
     'implicit-arrow-linebreak': 'off',
     'no-shadow': 'off',
+    'arrow-body-style': 'warn',
   },
 };

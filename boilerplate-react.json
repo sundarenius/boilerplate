@@ -1,0 +1,24 @@
+{
+  "appType": "spa",
+  "language": "typescript",
+  "eslint": true,
+  "stateManagement": true,
+  "css-processor": "sass/scss",
+  "UiFramework": "semantic ui",
+  "testing": [
+    "Unit (jest)",
+    "E2E (cypress)"
+  ],
+  "routing": true,
+  "historyRouter": true,
+  "eslintType": "airbnb",
+  "routes": {
+    "_info": "It is good practice to name pages and components as PascalCase",
+    "routeOne": {
+      "name": "RouteOne"
+    },
+    "routeTwo": {
+      "name": "RouteTwo"
+    }
+  }
+}

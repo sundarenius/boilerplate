@@ -1,5 +1,13 @@
 import { QuestionsAndAnswers } from '@/types/types';
-import { terminalQandA } from '@/utils/helpers';
+import {
+  AppTypes,
+  Languages,
+  CssPreProcessor,
+  Testing,
+  ESLint,
+  NameOptions,
+} from '@/types/frontend-types';
+import { terminalQandA, getFrameWorkOptions } from '@/utils/helpers';
 import inquirer from 'inquirer';
 
 /*
@@ -8,24 +16,15 @@ import inquirer from 'inquirer';
  * 2. language
  * 3. routing (if SPA, if SSR then there's no need to ask)
  * 4. eslint
+ * 5. State management
+ * 6. Css preprocessor
+ * 7. Testing tools (unit/e2e)
  */
-
-// Move all types into types/frontend
-
-enum AppTypes {
-  SPA = 'SPA',
-  SSR = 'SSR'
-}
-
-enum Languages {
-  JAVASCRIPT = 'JavaScript',
-  TYPESCRIPT = 'TypeScript'
-}
 
 export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   {
     type: 'list',
-    name: 'appType',
+    name: NameOptions.APP_TYPE,
     message: `You want a SPA or SSR ${type} app?`,
     choices: Object.values(AppTypes),
     filter(val: any) {
@@ -34,7 +33,7 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   },
   {
     type: 'list',
-    name: 'language',
+    name: NameOptions.LANGUAGE,
     message: 'Select language',
     choices: Object.values(Languages),
     filter(val: any) {
@@ -43,21 +42,30 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   },
   {
     type: 'confirm',
-    name: 'eslint',
+    name: NameOptions.ESLINT,
     message: 'Wanna use a linter (eslint)?',
     default: true,
   },
   {
     type: 'confirm',
-    name: 'stateManagement',
+    name: NameOptions.STATE_MANAGEMENT,
     message: 'Do you need global state management?',
     default: true,
   },
   {
     type: 'list',
-    name: 'language',
+    name: NameOptions.CSS_PROCESSOR,
     message: 'Pick a CSS pre-processor',
-    choices: ['Sass/SCSS', 'Less', 'Stylus', 'none'],
+    choices: Object.values(CssPreProcessor),
+    filter(val: any) {
+      return val.toLowerCase();
+    },
+  },
+  {
+    type: 'list',
+    name: NameOptions.UI_FRAMEWORK,
+    message: 'Pick a UI framework (if any)',
+    choices: getFrameWorkOptions(type),
     filter(val: any) {
       return val.toLowerCase();
     },
@@ -65,14 +73,14 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   {
     type: 'checkbox',
     message: 'Testing (optional) ',
-    name: 'testing',
+    name: NameOptions.TESTING,
     choices: [
       new inquirer.Separator(' = Select with spacebar, finish with enter = '),
       {
-        name: 'Unit (jest)',
+        name: Testing.UNIT,
       },
       {
-        name: 'E2E (cypress)',
+        name: Testing.E2E,
       },
     ],
   },
@@ -88,7 +96,7 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
     const res = await terminalQandA([
       {
         type: 'confirm',
-        name: 'routing',
+        name: NameOptions.ROUTING,
         message: 'Wanna use routing for your SPA?',
         default: true,
       },
@@ -101,7 +109,7 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
       const res = await terminalQandA([
         {
           type: 'confirm',
-          name: 'historyRouter',
+          name: NameOptions.HISTORY_ROUTER,
           // eslint-disable-next-line max-len
           message: 'Use history mode for router? (Requires proper server setup for index fallback in production)',
           default: true,
@@ -118,9 +126,9 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
     const res = await terminalQandA([
       {
         type: 'list',
-        name: 'eslintType',
+        name: NameOptions.ESLINT_TYPE,
         message: 'What type of eslint style do you wanna use?',
-        choices: ['Airbnb', 'Standard'],
+        choices: Object.values(ESLint),
         filter(val: any) {
           return val.toLowerCase();
         },

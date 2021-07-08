@@ -1,6 +1,7 @@
 import fs from 'fs';
 import inquirer from 'inquirer';
-import { QuestionsAndAnswers } from '@/types/types';
+import { QuestionsAndAnswers, ProjectTypes } from '@/types/types';
+import { ReactUiFrameWorks, VueUiFrameWorks } from '@/types/frontend-types';
 
 type TerminalQandA = (q: QuestionsAndAnswers[]) => QuestionsAndAnswers
 export const terminalQandA: TerminalQandA = async (questions) => {
@@ -20,3 +21,13 @@ export const createFile = (fileName: string, template: string) => {
 };
 
 export const createJsonOutPut = (input: Record<string, any>) => JSON.stringify(input, null, 2);
+
+export const getFrameWorkOptions = (type: string):string[] => {
+  switch (type) {
+    case ProjectTypes.REACT:
+    default:
+      return Object.values(ReactUiFrameWorks);
+    case ProjectTypes.VUE:
+      return Object.values(VueUiFrameWorks);
+  }
+};
