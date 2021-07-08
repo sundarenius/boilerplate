@@ -5,8 +5,9 @@ import {
 
 /*
  * Standard app
- * A configuration/documenation portal. A app guide of this CLI program.
+ * A configuration/documentation portal. A app guide of this CLI program.
  * The data here is framework agnostic
+ * Make it look like termius webpage: https://termius.com/
  *
  */
 
