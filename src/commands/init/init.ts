@@ -5,6 +5,10 @@ import { cli } from './followUpQuestions/cli';
 import { frontendApi } from './followUpQuestions/frontendApi';
 import { monorepo } from './followUpQuestions/monorepo';
 import { initReact } from './initReact';
+import { initVue } from './initVue';
+import { initCli } from './initCli';
+import { initFrontApi } from './initFrontApi';
+import { initMonorepo } from './initMonorepo';
 
 const projectTypes: ProjectTypes[] = Object.values(ProjectTypes);
 
@@ -28,20 +32,16 @@ const create = (type:string, followUpAnswers: Record<string, any>):void => {
       initReact(followUpAnswers);
       break;
     case ProjectTypes.VUE:
-      console.log(type);
-      console.log('Sry you have to create one yourself, this is a todo.');
+      initVue(followUpAnswers);
       break;
     case ProjectTypes.FRONTEND_API:
-      console.log(type);
-      console.log('Sry you have to create one yourself, this is a todo.');
+      initFrontApi(followUpAnswers);
       break;
     case ProjectTypes.CLI:
-      console.log(type);
-      console.log('Sry you have to create one yourself, this is a todo.');
+      initCli(followUpAnswers);
       break;
     case ProjectTypes.MONOREPO:
-      console.log(type);
-      console.log('Sry you have to create one yourself, this is a todo.');
+      initMonorepo(followUpAnswers);
       break;
     default:
       break;
