@@ -29,15 +29,19 @@ const create = (type:string, followUpAnswers: Record<string, any>):void => {
       break;
     case ProjectTypes.VUE:
       console.log(type);
+      console.log('Sry you have to create one yourself, this is a todo.');
       break;
     case ProjectTypes.FRONTEND_API:
       console.log(type);
+      console.log('Sry you have to create one yourself, this is a todo.');
       break;
     case ProjectTypes.CLI:
       console.log(type);
+      console.log('Sry you have to create one yourself, this is a todo.');
       break;
     case ProjectTypes.MONOREPO:
       console.log(type);
+      console.log('Sry you have to create one yourself, this is a todo.');
       break;
     default:
       break;
