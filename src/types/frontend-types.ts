@@ -20,7 +20,8 @@ export enum NameOptions {
   HISTORY_ROUTER = 'historyRouter',
   ESLINT_TYPE = 'eslintType',
   UI_FRAMEWORK = 'UiFramework',
-  INCLUDE_DOCKER = 'includeDocker'
+  INCLUDE_DOCKER = 'includeDocker',
+  AUTH_REQUIRED = 'authRequired'
 }
 
 export enum AppTypes {

@@ -16,7 +16,7 @@ import { additionalFrontEndQuestions } from './followUpQuestions/frontend';
 import {
   initialState,
   initialRoute,
-} from './initialData';
+} from './initial-data';
 
 const createTemplateFile = (fileName: string, feedback: QuestionsAndAnswers) => {
   createFile(`${fileName}.json`, createJsonOutPut(feedback));

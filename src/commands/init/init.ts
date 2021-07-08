@@ -2,13 +2,13 @@ import { terminalQandA } from '@/utils/helpers';
 import { QuestionsAndAnswers, ProjectTypes } from '@/types/types';
 import { frontend } from './followUpQuestions/frontend';
 import { cli } from './followUpQuestions/cli';
-import { frontendApi } from './followUpQuestions/frontendApi';
+import { frontendApi } from './followUpQuestions/frontend-api';
 import { monorepo } from './followUpQuestions/monorepo';
-import { initReact } from './initReact';
-import { initVue } from './initVue';
-import { initCli } from './initCli';
-import { initFrontApi } from './initFrontApi';
-import { initMonorepo } from './initMonorepo';
+import { initReact } from './init-react';
+import { initVue } from './init-vue';
+import { initCli } from './init-cli';
+import { initFrontApi } from './init-front-api';
+import { initMonorepo } from './init-monorepo';
 
 const projectTypes: ProjectTypes[] = Object.values(ProjectTypes);
 
