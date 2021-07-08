@@ -59,11 +59,30 @@ export enum VueUiFrameWorks {
   NONE = 'none'
 }
 
-export interface RoutesData {
-  name: string,
+/*
+ * Components is one the most important for this app to succeed
+ * Have a lot of components based on UI frameworks with props,
+ * (basic components if no UI-framework is selecter).
+ * 1. All components should achieve the same with different UI frameworks.
+ * 2. Components templates should be mapped in same maps with different frameworks used.
+ * 3. All components should have a unit test file. (Can it be UI framework agnostic?, prob. not)
+ * 4. Type of components:
+ *     - sidedrawer
+ *     - header
+ *     - footer
+ *     - inputs/dropdowns/textareas
+ */
+interface Components {
+
 }
 
-export type Routes = Record<string, string|RoutesData>
+export interface RoutesData {
+  name: string,
+  path: string,
+  components?: Components[]
+}
+
+export type Routes = Record<string, string|Array<RoutesData>>
 export type States = Record<string, string|GlobalState>
 
 export interface GlobalState {

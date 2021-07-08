@@ -14,12 +14,18 @@ import {
 export const initialRoute: () => Routes = () => ({
   // eslint-disable-next-line max-len
   _info: 'It`s good practice to name pages and components as PascalCase. Every name will be created as a page.',
-  routeOne: {
-    name: 'RouteOne',
-  },
-  routeTwo: {
-    name: 'RouteTwo',
-  },
+  routes: [
+    {
+      name: 'RouteOne',
+      path: '/raj',
+      components: [],
+    },
+    {
+      name: 'RouteTwo',
+      path: '/raj2',
+      components: [],
+    },
+  ],
 });
 
 export const initialState:() => States = () => ({
