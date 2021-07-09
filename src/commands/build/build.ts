@@ -4,7 +4,8 @@ import { JsonTemplateFileNames } from '@/types/types';
 import { fileExists, readJsonFile } from '@/utils/helpers';
 
 const buildProject = (data: Partial<CompleteData>) => {
-  // Let's begin building the project .. somehow :D
+  // Let's begin building the project .. somehow
+  // all based on data object and process.env.DEFAULT_PROJECT :D
   console.log('buildProject');
   console.log(JSON.stringify(data, null, 2));
 };
