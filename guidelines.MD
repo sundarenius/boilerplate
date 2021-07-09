@@ -42,5 +42,6 @@ root
     pages (synced with routes) # if routing is used
     state (can be named redux/vuex/store) # should be split into specific functionality modules.
     styles (global css files)
+    router
     types (ts types or js constants)
     utils (helpers and such)
