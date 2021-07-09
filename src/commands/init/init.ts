@@ -1,5 +1,6 @@
 import { terminalQandA } from '@/utils/helpers';
-import { QuestionsAndAnswers, ProjectTypes } from '@/types/types';
+import type { QuestionsAndAnswers } from '@/types/types';
+import { ProjectTypes } from '@/types/types';
 import { frontend } from './followUpQuestions/frontend';
 import { cli } from './followUpQuestions/cli';
 import { frontendApi } from './followUpQuestions/frontend-api';
@@ -61,9 +62,22 @@ export const init = async () => {
         return val.toLowerCase();
       },
     },
+    {
+      type: 'confirm',
+      name: 'createProject',
+      // eslint-disable-next-line max-len
+      message: 'The project will be created in current directory with the folder name as the project name, sure you wanna continue?',
+      default: true,
+    },
   ];
 
-  const { type } = await terminalQandA(questions);
+  const { type, createProject } = await terminalQandA(questions);
+  if (!createProject) {
+    // eslint-disable-next-line max-len
+    console.log('Ok let\'s stop here ..');
+    console.log('Make sure you are in a directory you wanna create the project at.');
+    return;
+  }
   console.log(`Great choice, will create a ${type} project for you`);
   console.log('Just a few more questions ...');
 

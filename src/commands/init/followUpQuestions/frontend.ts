@@ -1,4 +1,4 @@
-import { QuestionsAndAnswers } from '@/types/types';
+import type { QuestionsAndAnswers } from '@/types/types';
 import {
   AppTypes,
   Languages,
@@ -6,6 +6,8 @@ import {
   Testing,
   ESLint,
   NameOptions,
+  Themes,
+  ComponentEnums,
 } from '@/types/frontend-types';
 import { terminalQandA, getFrameWorkOptions } from '@/utils/helpers';
 import inquirer from 'inquirer';
@@ -87,6 +89,15 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
     ],
   },
   {
+    type: 'list',
+    message: 'Pick a base theme',
+    name: NameOptions.THEME,
+    choices: Object.values(Themes),
+    filter(val: any) {
+      return val.toLowerCase();
+    },
+  },
+  {
     type: 'confirm',
     name: NameOptions.INCLUDE_DOCKER,
     message: 'Do you wanna include docker?',
@@ -98,6 +109,24 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
     message: 'Should one be authenticated to use the app?',
     default: false,
   },
+  {
+    type: 'checkbox',
+    message: 'Include base components for all views?',
+    name: NameOptions.BASE_COMPONENTS,
+    choices: [
+      // eslint-disable-next-line max-len
+      new inquirer.Separator(' = Select with spacebar, finish with enter, or select none and click enter to skip = '),
+      {
+        name: ComponentEnums.MENU,
+      },
+      {
+        name: ComponentEnums.FOOTER,
+      },
+      {
+        name: ComponentEnums.SIDEBAR,
+      },
+    ],
+  },
 ]);
 
 type AdditionalFrontEndQuestions = (followUpAnswers: Record<string, any>) => Promise<Record<string, any>>
@@ -107,7 +136,7 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
   };
 
   if (followUpAnswers.appType.toLowerCase() === AppTypes.SPA.toLowerCase()) {
-    const res = await terminalQandA([
+    const routingFeedback = await terminalQandA([
       {
         type: 'confirm',
         name: NameOptions.ROUTING,
@@ -117,10 +146,10 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
     ]);
     additionalAnswers = {
       ...additionalAnswers,
-      ...res,
+      ...routingFeedback,
     };
-    if (res.routing) {
-      const res = await terminalQandA([
+    if (routingFeedback.routing) {
+      const historyRouterFeedback = await terminalQandA([
         {
           type: 'confirm',
           name: NameOptions.HISTORY_ROUTER,
@@ -131,13 +160,13 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
       ]);
       additionalAnswers = {
         ...additionalAnswers,
-        ...res,
+        ...historyRouterFeedback,
       };
     }
   }
 
   if (followUpAnswers.eslint) {
-    const res = await terminalQandA([
+    const eslintTypeFeedback = await terminalQandA([
       {
         type: 'list',
         name: NameOptions.ESLINT_TYPE,
@@ -150,7 +179,7 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
     ]);
     additionalAnswers = {
       ...additionalAnswers,
-      ...res,
+      ...eslintTypeFeedback,
     };
   }
 

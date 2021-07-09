@@ -1,6 +1,4 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { ProjectTypes } from './types';
+import type { ProjectTypes } from './types';
 
 /*
  * Some keys in NameOptions impact the app more than other.
@@ -21,7 +19,9 @@ export enum NameOptions {
   ESLINT_TYPE = 'eslintType',
   UI_FRAMEWORK = 'UiFramework',
   INCLUDE_DOCKER = 'includeDocker',
-  AUTH_REQUIRED = 'authRequired'
+  AUTH_REQUIRED = 'authRequired',
+  THEME = 'theme',
+  BASE_COMPONENTS = 'baseComponents'
 }
 
 export enum AppTypes {
@@ -73,8 +73,14 @@ export enum VueUiFrameWorks {
  *     - footer
  *     - inputs/dropdowns/textareas
  */
-interface Components {
 
+export enum ComponentEnums {
+  MENU = 'Menu',
+  FOOTER = 'Footer',
+  SIDEBAR = 'Sidebar'
+}
+export interface Components {
+  component: ComponentEnums
 }
 
 export interface RoutesData {
@@ -89,7 +95,20 @@ export type States = Record<string, string|GlobalState>
 export interface GlobalState {
   name: string,
   state: Record<string, any>,
-  dispatchables: Array<string> | 'all'
+  disptachActions: Array<string> | 'all'
+}
+
+export enum Themes {
+  LIGHT_BLUE = 'Light blue',
+  DARK_BLUE = 'Dark blue',
+  DARK_GREEN = 'Dark green',
+  LIGHT_GREEN = 'Light green',
+  DARK_RED = 'Dark red',
+  LIGHT_RED = 'Light red',
+  DARK_INDIGO = 'Dark indigo',
+  LIGHT_INDIGO = 'Light indigo',
+  DARK_PURPLE = 'Dark purple',
+  LIGHT_PURPLE = 'Light purple',
 }
 
 /*
@@ -98,7 +117,9 @@ export interface GlobalState {
  */
 export interface CompleteData {
   framework: ProjectTypes.REACT|ProjectTypes.VUE,
+  theme: Themes
   canOverWriteApp: boolean, // can still modify and add on top though.
   routes?: Routes,
   globalState?: States,
+  size: string|number
 }
