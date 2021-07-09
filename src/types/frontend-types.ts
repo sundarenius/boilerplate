@@ -1,18 +1,34 @@
 import type { ProjectTypes } from './types';
 
+// ****** JSON OUTPUT TYPES DATA START ******
 /*
- * Some keys in NameOptions impact the app more than other.
+ * @interface
+ * Interface for what data is included in the generated JSON file.
+ */
+type UserFeedbackOptionsInterface = Partial<Record<
+  UserFeedbackOptions, string|boolean|string[]|boolean[]>
+>
+export interface CompleteData extends UserFeedbackOptionsInterface {
+  framework: ProjectTypes.REACT|ProjectTypes.VUE,
+  theme: Themes
+  canOverWriteApp: boolean, // can still modify and add on top though.
+  routes?: Routes,
+  globalState?: States,
+  size: string|number
+}
+/*
+ * Some keys in UserFeedbackOptions impact the app more than other.
  * While some are just a tech stack, some choices are crucial for what type of app it will be, like:
  * 1. STATE_MANAGEMENT # the global state of the app
  * 2. ROUTING # the routing (pages to be included),
  *    if no routing is included, just add an App.{ext} file with some components.
  */
-export enum NameOptions {
+export enum UserFeedbackOptions {
   APP_TYPE = 'appType',
   LANGUAGE = 'language',
   ESLINT = 'eslint',
   STATE_MANAGEMENT = 'stateManagement', // Impacts the app
-  CSS_PROCESSOR = 'css-processor',
+  CSS_PROCESSOR = 'cssProcessor',
   TESTING = 'testing',
   ROUTING = 'routing', // Impacts the app
   HISTORY_ROUTER = 'historyRouter',
@@ -23,6 +39,8 @@ export enum NameOptions {
   THEME = 'theme',
   BASE_COMPONENTS = 'baseComponents'
 }
+export const DefaultProject = '_DEFAULT_PROJECT_';
+// ****** JSON OUTPUT TYPES DATA END ******
 
 export enum AppTypes {
   SPA = 'SPA',
@@ -109,17 +127,4 @@ export enum Themes {
   LIGHT_INDIGO = 'Light indigo',
   DARK_PURPLE = 'Dark purple',
   LIGHT_PURPLE = 'Light purple',
-}
-
-/*
- * @interface
- * Interface for what data is included in the generated JSON file.
- */
-export interface CompleteData {
-  framework: ProjectTypes.REACT|ProjectTypes.VUE,
-  theme: Themes
-  canOverWriteApp: boolean, // can still modify and add on top though.
-  routes?: Routes,
-  globalState?: States,
-  size: string|number
 }

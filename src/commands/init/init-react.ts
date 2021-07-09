@@ -1,19 +1,18 @@
 import {
   createFile,
   createJsonOutPut,
+  terminalQandA,
 } from '@/utils/helpers';
 import type { QuestionsAndAnswers } from '@/types/types';
 import { JsonTemplateFileNames, ProjectTypes } from '@/types/types';
 import {
   AppTypes,
-  // Languages,
-  // CssPreProcessor,
-  // Testing,
-  // ESLint,
-  NameOptions,
+  UserFeedbackOptions,
   Themes,
+  DefaultProject,
 } from '@/types/frontend-types';
 import type { CompleteData } from '@/types/frontend-types';
+import { build } from '@/commands/build/build';
 import { additionalFrontEndQuestions } from './followUpQuestions/frontend';
 import {
   initialState,
@@ -34,15 +33,31 @@ const completeData = (data: Record<string, any>):CompleteData => {
   };
 
   // Check if we should include routes options
-  if (data[NameOptions.ROUTING] || (data[NameOptions.APP_TYPE] === AppTypes.SSR)) {
+  if (data[UserFeedbackOptions.ROUTING] || (data[UserFeedbackOptions.APP_TYPE] === AppTypes.SSR)) {
     allData.routes = initialRoute();
   }
 
-  if (data[NameOptions.STATE_MANAGEMENT]) {
+  if (data[UserFeedbackOptions.STATE_MANAGEMENT]) {
     allData.globalState = initialState();
   }
 
   return allData;
+};
+
+const createProjectQuestion = async (data: Record<string, any>) => {
+  const { buildDefaultProject } = await terminalQandA([
+    {
+      type: 'confirm',
+      name: 'buildDefaultProject',
+      // eslint-disable-next-line max-len
+      message: 'Great! I\'ve got some data from you. Can I create a default project? You can overwrite this later with your own configurations',
+      default: false,
+    },
+  ]);
+  createTemplateFile(JsonTemplateFileNames.BOILERPLATE_REACT, data);
+  if (buildDefaultProject) {
+    build(data, DefaultProject);
+  }
 };
 
 export const initReact = async (followUpAnswers: Record<string, any>) => {
@@ -51,5 +66,5 @@ export const initReact = async (followUpAnswers: Record<string, any>) => {
     ...followUpAnswers,
     ...additionalAnswers,
   });
-  createTemplateFile(JsonTemplateFileNames.BOILERPLATE_REACT, allData);
+  createProjectQuestion(allData);
 };

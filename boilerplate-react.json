@@ -1,12 +1,12 @@
 {
   "size": "full",
   "framework": "React",
-  "theme": "light green",
+  "theme": "dark red",
   "appType": "spa",
   "language": "typescript",
   "eslint": true,
   "stateManagement": true,
-  "css-processor": "sass/scss",
+  "cssProcessor": "sass/scss",
   "UiFramework": "semantic ui",
   "testing": [
     "Unit (jest)",

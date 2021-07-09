@@ -1,6 +1,7 @@
 import fs from 'fs';
 import inquirer from 'inquirer';
-import { QuestionsAndAnswers, ProjectTypes } from '@/types/types';
+import type { QuestionsAndAnswers } from '@/types/types';
+import { ProjectTypes } from '@/types/types';
 import { ReactUiFrameWorks, VueUiFrameWorks } from '@/types/frontend-types';
 
 type TerminalQandA = (q: QuestionsAndAnswers[]) => QuestionsAndAnswers
@@ -30,4 +31,18 @@ export const getFrameWorkOptions = (type: string):string[] => {
     case ProjectTypes.VUE:
       return Object.values(VueUiFrameWorks);
   }
+};
+
+export const fileExists = (file:string) => {
+  const dir = process.cwd();
+  const fileFound = fs.existsSync(`${dir}/${file}`);
+  return fileFound;
+};
+
+export const readJsonFile = (file: string) => {
+  const dir = process.cwd();
+  const bufferData = fs.readFileSync(`${dir}/${file}`);
+  const stData = bufferData.toString();
+  const data = JSON.parse(stData);
+  return data;
 };

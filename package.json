@@ -13,8 +13,10 @@
   ],
   "scripts": {
     "dev:init": "tsc-watch --onSuccess \"node dist/bin/boilerplate.js --init\"",
+    "dev:build": "tsc-watch --onSuccess \"node dist/bin/boilerplate.js --build\"",
     "build": "tsc",
-    "start:init": "npm run build && node dist/bin/boilerplate.js --init"
+    "start:init": "npm run build && node dist/bin/boilerplate.js --init",
+    "start:build": "npm run build && node dist/bin/boilerplate.js --build"
   },
   "keywords": [],
   "dependencies": {

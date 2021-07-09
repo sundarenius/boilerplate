@@ -5,7 +5,7 @@ import {
   CssPreProcessor,
   Testing,
   ESLint,
-  NameOptions,
+  UserFeedbackOptions,
   Themes,
   ComponentEnums,
 } from '@/types/frontend-types';
@@ -28,7 +28,7 @@ import inquirer from 'inquirer';
 export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   {
     type: 'list',
-    name: NameOptions.APP_TYPE,
+    name: UserFeedbackOptions.APP_TYPE,
     message: `You want a SPA or SSR ${type} app?`,
     choices: Object.values(AppTypes),
     filter(val: any) {
@@ -37,7 +37,7 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   },
   {
     type: 'list',
-    name: NameOptions.LANGUAGE,
+    name: UserFeedbackOptions.LANGUAGE,
     message: 'Select language',
     choices: Object.values(Languages),
     filter(val: any) {
@@ -46,19 +46,19 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   },
   {
     type: 'confirm',
-    name: NameOptions.ESLINT,
+    name: UserFeedbackOptions.ESLINT,
     message: 'Wanna use a linter (eslint)?',
     default: true,
   },
   {
     type: 'confirm',
-    name: NameOptions.STATE_MANAGEMENT,
+    name: UserFeedbackOptions.STATE_MANAGEMENT,
     message: 'Do you need global state management?',
     default: true,
   },
   {
     type: 'list',
-    name: NameOptions.CSS_PROCESSOR,
+    name: UserFeedbackOptions.CSS_PROCESSOR,
     message: 'Pick a CSS pre-processor',
     choices: Object.values(CssPreProcessor),
     filter(val: any) {
@@ -67,7 +67,7 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   },
   {
     type: 'list',
-    name: NameOptions.UI_FRAMEWORK,
+    name: UserFeedbackOptions.UI_FRAMEWORK,
     message: 'Pick a UI framework (if any)',
     choices: getFrameWorkOptions(type),
     filter(val: any) {
@@ -77,7 +77,7 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   {
     type: 'checkbox',
     message: 'Testing (optional) ',
-    name: NameOptions.TESTING,
+    name: UserFeedbackOptions.TESTING,
     choices: [
       new inquirer.Separator(' = Select with spacebar, finish with enter = '),
       {
@@ -91,7 +91,7 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   {
     type: 'list',
     message: 'Pick a base theme',
-    name: NameOptions.THEME,
+    name: UserFeedbackOptions.THEME,
     choices: Object.values(Themes),
     filter(val: any) {
       return val.toLowerCase();
@@ -99,20 +99,20 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   },
   {
     type: 'confirm',
-    name: NameOptions.INCLUDE_DOCKER,
+    name: UserFeedbackOptions.INCLUDE_DOCKER,
     message: 'Do you wanna include docker?',
     default: true,
   },
   {
     type: 'confirm',
-    name: NameOptions.AUTH_REQUIRED,
+    name: UserFeedbackOptions.AUTH_REQUIRED,
     message: 'Should one be authenticated to use the app?',
     default: false,
   },
   {
     type: 'checkbox',
     message: 'Include base components for all views?',
-    name: NameOptions.BASE_COMPONENTS,
+    name: UserFeedbackOptions.BASE_COMPONENTS,
     choices: [
       // eslint-disable-next-line max-len
       new inquirer.Separator(' = Select with spacebar, finish with enter, or select none and click enter to skip = '),
@@ -139,7 +139,7 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
     const routingFeedback = await terminalQandA([
       {
         type: 'confirm',
-        name: NameOptions.ROUTING,
+        name: UserFeedbackOptions.ROUTING,
         message: 'Wanna use routing for your SPA?',
         default: true,
       },
@@ -152,7 +152,7 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
       const historyRouterFeedback = await terminalQandA([
         {
           type: 'confirm',
-          name: NameOptions.HISTORY_ROUTER,
+          name: UserFeedbackOptions.HISTORY_ROUTER,
           // eslint-disable-next-line max-len
           message: 'Use history mode for router? (Requires proper server setup for index fallback in production)',
           default: true,
@@ -169,7 +169,7 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
     const eslintTypeFeedback = await terminalQandA([
       {
         type: 'list',
-        name: NameOptions.ESLINT_TYPE,
+        name: UserFeedbackOptions.ESLINT_TYPE,
         message: 'What type of eslint style do you wanna use?',
         choices: Object.values(ESLint),
         filter(val: any) {

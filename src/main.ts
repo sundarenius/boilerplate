@@ -11,7 +11,7 @@ export const start = (arg: string|undefined) => {
       init();
       break;
     case CommandInitArgument.BUILD:
-      build();
+      build({}, null);
       break;
     case CommandInitArgument.ADD:
       add();
