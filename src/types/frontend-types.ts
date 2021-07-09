@@ -5,16 +5,24 @@ import type { ProjectTypes } from './types';
  * @interface
  * Interface for what data is included in the generated JSON file.
  */
+export enum CompleteDataKeys {
+  FRAMEWORK = 'framework',
+  THEME = 'theme',
+  CAN_OVERWRITE_APP = 'canOverwriteApp',
+  ROUTES = 'routes',
+  GLOBAL_STATE = 'globalState',
+  SIZE = 'size'
+}
 type UserFeedbackOptionsInterface = Partial<Record<
   UserFeedbackOptions, string|boolean|string[]|boolean[]>
 >
 export interface CompleteData extends UserFeedbackOptionsInterface {
-  framework: ProjectTypes.REACT|ProjectTypes.VUE,
-  theme: Themes
-  canOverWriteApp: boolean, // can still modify and add on top though.
-  routes?: Routes,
-  globalState?: States,
-  size: string|number
+  [CompleteDataKeys.FRAMEWORK]: FrontendFrameworks,
+  [CompleteDataKeys.THEME]: Themes
+  [CompleteDataKeys.CAN_OVERWRITE_APP]: boolean, // can still modify and add on top though.
+  [CompleteDataKeys.ROUTES]?: Routes,
+  [CompleteDataKeys.GLOBAL_STATE]?: States,
+  [CompleteDataKeys.SIZE]: string|number
 }
 /*
  * Some keys in UserFeedbackOptions impact the app more than other.
@@ -128,3 +136,5 @@ export enum Themes {
   DARK_PURPLE = 'Dark purple',
   LIGHT_PURPLE = 'Light purple',
 }
+
+export type FrontendFrameworks = ProjectTypes.REACT|ProjectTypes.VUE

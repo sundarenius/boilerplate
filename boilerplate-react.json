@@ -22,7 +22,7 @@
   "routing": true,
   "historyRouter": true,
   "eslintType": "airbnb",
-  "canOverWriteApp": true,
+  "canOverwriteApp": true,
   "routes": {
     "_info": "It`s good practice to name pages and components as PascalCase. Every name will be created as a page.",
     "routes": [

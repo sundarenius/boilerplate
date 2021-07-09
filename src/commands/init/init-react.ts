@@ -29,7 +29,7 @@ const completeData = (data: Record<string, any>):CompleteData => {
     framework: ProjectTypes.REACT,
     theme: Themes.DARK_BLUE,
     ...data,
-    canOverWriteApp: true,
+    canOverwriteApp: true,
   };
 
   // Check if we should include routes options
