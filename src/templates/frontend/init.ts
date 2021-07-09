@@ -54,7 +54,7 @@ const folderAndFilesStructure: FolderAndFilesStructure = (data) => {
     globals: `src/types/globals${ext}`,
     utils: 'src/utils',
     helpers: `src/utils/helpers${ext}`,
-    e2e: 'src/e2e', // genererate cypress with shell script
+    e2e: 'src/e2e',
   };
 
   return paths;
