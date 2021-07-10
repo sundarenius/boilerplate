@@ -2,6 +2,7 @@ import { ProjectTypes } from '@/types/types';
 import type {
   CompleteData,
   Path,
+  FrontendFrameworks,
 } from '@/types/frontend-types';
 import {
   UserFeedbackOptions,
@@ -11,6 +12,8 @@ import {
   Testing,
   AppTypes,
 } from '@/types/frontend-types';
+import { arrIncludes } from '@/utils/helpers';
+import { getPackageJson } from '@/templates/frontend/getTemplate';
 import { createProjectStructure } from './create-project';
 
 const getCmpntExt = (isTs:boolean, framework:any) => {
@@ -23,34 +26,44 @@ const getCmpntExt = (isTs:boolean, framework:any) => {
   }
 };
 
-type ValidateArr = (
-  opt: UserFeedbackOptions,
-  data: Partial<CompleteData>,
-  key: string,
-) => boolean
-const validateArr:ValidateArr = (opt, data, key) => {
-  const arr = data[opt];
-  if (Array.isArray(arr)) {
-    return arr.includes(key as never);
-  }
-  return false;
-};
-
 const equalStrings = (a:string, b:string): boolean =>
   a.toLowerCase() === b.toLowerCase();
 
+const getFrameWorkSpecificFilesFoldersNames = (data: Partial<CompleteData>) => {
+  const ts = equalStrings(data[UserFeedbackOptions.LANGUAGE] as string, Languages.TYPESCRIPT);
+  const ext = ts ? '.ts' : '.js';
+  const cmpntExt = getCmpntExt(ts, data[CompleteDataKeys.FRAMEWORK]);
+  switch (data[CompleteDataKeys.FRAMEWORK]!.toLowerCase()) {
+    case (ProjectTypes.REACT!.toLocaleLowerCase()):
+    default:
+      return {
+        storeType: 'redux',
+        routerFile: `Routes${cmpntExt}`,
+        cmpntExt,
+        ext,
+      };
+    case (ProjectTypes.VUE!.toLocaleLowerCase()):
+      return {
+        storeType: 'vuex',
+        routerFile: `router${ext}`,
+        cmpntExt,
+        ext,
+      };
+  }
+};
+
 type GetFolderAndFilesStructure = (data: Partial<CompleteData>) => Path[]
 const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
-  const ts = equalStrings(data[UserFeedbackOptions.LANGUAGE] as string, Languages.TYPESCRIPT);
-  // if isReact is false, it should be VUE. Currently only supporting those two.
-  const isReact = equalStrings(data[CompleteDataKeys.FRAMEWORK] as string, ProjectTypes.REACT);
-  const cmpntExt = getCmpntExt(ts, data[CompleteDataKeys.FRAMEWORK]);
-  const storeType = isReact ? 'redux' : 'vuex';
-  const ext = ts ? '.ts' : '.js';
-  const routerFile = isReact ? `Routes${cmpntExt}` : `router${ext}`;
   const router = Boolean(data[UserFeedbackOptions.ROUTING])
     || data[UserFeedbackOptions.APP_TYPE] === AppTypes.SSR;
   const stateManagement = Boolean(data[UserFeedbackOptions.STATE_MANAGEMENT]);
+
+  const {
+    cmpntExt,
+    ext,
+    storeType,
+    routerFile,
+  } = getFrameWorkSpecificFilesFoldersNames(data);
 
   /*
    * @returns {object} folder and files paths.
@@ -61,12 +74,18 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
 
   const paths: Path[] = [
     {
+      path: 'package.json',
+      type: FileType.FILE,
+      if: true,
+      template: getPackageJson(data[UserFeedbackOptions.APP_TYPE] as FrontendFrameworks, data),
+    },
+    {
       path: 'src',
       type: FileType.FOLDER,
       if: true,
     },
     {
-      path: `src/index${ext}`,
+      path: `src/main${ext}`,
       type: FileType.FILE,
       if: true,
     },
@@ -78,7 +97,7 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
     {
       path: `src/unit-config${ext}`,
       type: FileType.FILE,
-      if: validateArr(
+      if: arrIncludes(
         UserFeedbackOptions.TESTING,
         data,
         Testing.UNIT,
@@ -162,7 +181,7 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
     {
       path: 'src/e2e',
       type: FileType.FOLDER,
-      if: validateArr(
+      if: arrIncludes(
         UserFeedbackOptions.TESTING,
         data,
         Testing.E2E,
@@ -177,7 +196,7 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
   return paths;
 };
 
-export const initFrontEndTemplate = (data: Partial<CompleteData>) => {
+export const createFrontendProject = (data: Partial<CompleteData>) => {
   const folderFilesStructure = getFolderAndFilesStructure(data);
   createProjectStructure(folderFilesStructure);
 };

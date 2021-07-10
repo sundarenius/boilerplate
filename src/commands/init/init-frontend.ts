@@ -55,9 +55,7 @@ const createProjectQuestion = async (data: Record<string, any>) => {
     },
   ]);
   createTemplateFile(JsonTemplateFileName.BOILERPLATE, data);
-  if (buildDefaultProject) {
-    build(data, DefaultProject);
-  }
+  return buildDefaultProject;
 };
 
 export const initFrontend = async (
@@ -70,5 +68,8 @@ export const initFrontend = async (
     ...additionalAnswers,
   },
   appType);
-  createProjectQuestion(allData);
+  const createDefaultProject = await createProjectQuestion(allData);
+  if (createDefaultProject) {
+    build(allData, DefaultProject);
+  }
 };

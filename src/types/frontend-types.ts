@@ -147,4 +147,5 @@ export interface Path {
   path: string,
   type: FileType.FOLDER|FileType.FILE,
   if: boolean,
+  template?: string
 }

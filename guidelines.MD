@@ -43,5 +43,7 @@ root
     state (can be named redux/vuex/store) # should be split into specific functionality modules.
     styles (global css files)
     router
+    docker
     types (ts types or js constants)
     utils (helpers and such)
+    e2e

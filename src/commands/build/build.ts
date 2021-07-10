@@ -2,13 +2,13 @@ import { DefaultProject } from '@/types/frontend-types';
 import type { CompleteData } from '@/types/frontend-types';
 import { JsonTemplateFileName } from '@/types/types';
 import { fileExists, readJsonFile } from '@/utils/helpers';
-import { initFrontEndTemplate } from '@/templates/frontend/init';
+import { createFrontendProject } from '@/create-projects/frontend/init';
 
 const getJsonTemplate = () => {
   const fileFound = fileExists(`${JsonTemplateFileName.BOILERPLATE}.json`);
   if (fileFound) {
-    const jsonData = readJsonFile(`${fileFound}.json`);
-    initFrontEndTemplate(jsonData);
+    const jsonData = readJsonFile(`${JsonTemplateFileName.BOILERPLATE}.json`);
+    createFrontendProject(jsonData);
   } else {
     console.log('No JSON template found at root folder.');
     // eslint-disable-next-line max-len
@@ -29,7 +29,7 @@ export const build = (data: Partial<CompleteData>, defaultProject: null|string) 
   if (defaultProject === DefaultProject) {
     process.env.DEFAULT_PROJECT = defaultProject;
     console.log('Ok let\'s build an default project with your settings');
-    initFrontEndTemplate(data);
+    createFrontendProject(data);
   } else {
     getJsonTemplate();
   }

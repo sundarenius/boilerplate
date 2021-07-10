@@ -15,7 +15,7 @@ const createDirs = (structure: Path[]) => {
 const createFiles = (structure: Path[]) => {
   structure.forEach((val:Path) => {
     if (val.if && FileType.FILE) {
-      createFile(val.path, 'NO CONTENT YET!!');
+      createFile(val.path, val.template || 'NO CONTENT YET!!');
     }
   });
 };

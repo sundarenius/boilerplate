@@ -2,7 +2,14 @@ import fs from 'fs';
 import inquirer from 'inquirer';
 import type { QuestionsAndAnswers } from '@/types/types';
 import { ProjectTypes } from '@/types/types';
-import { ReactUiFrameWorks, VueUiFrameWorks } from '@/types/frontend-types';
+import {
+  ReactUiFrameWorks,
+  VueUiFrameWorks,
+} from '@/types/frontend-types';
+import type {
+  UserFeedbackOptions,
+  CompleteData,
+} from '@/types/frontend-types';
 
 type TerminalQandA = (q: QuestionsAndAnswers[]) => QuestionsAndAnswers
 export const terminalQandA: TerminalQandA = async (questions) => {
@@ -57,4 +64,17 @@ export const readJsonFile = (file: string) => {
   const stData = bufferData.toString();
   const data = JSON.parse(stData);
   return data;
+};
+
+type ArrIncludes = (
+  opt: UserFeedbackOptions,
+  data: Partial<CompleteData>,
+  key: string,
+) => boolean
+export const arrIncludes:ArrIncludes = (opt, data, key) => {
+  const arr = data[opt];
+  if (Array.isArray(arr)) {
+    return arr.includes(key as never);
+  }
+  return false;
 };
