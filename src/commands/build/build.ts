@@ -1,11 +1,11 @@
 import { DefaultProject } from '@/types/frontend-types';
 import type { CompleteData } from '@/types/frontend-types';
-import { JsonTemplateFileNames } from '@/types/types';
+import { JsonTemplateFileName } from '@/types/types';
 import { fileExists, readJsonFile } from '@/utils/helpers';
 import { initFrontEndTemplate } from '@/templates/frontend/init';
 
 const getJsonTemplate = () => {
-  const fileFound = Object.values(JsonTemplateFileNames).find((val) => fileExists(`${val}.json`));
+  const fileFound = fileExists(`${JsonTemplateFileName.BOILERPLATE}.json`);
   if (fileFound) {
     const jsonData = readJsonFile(`${fileFound}.json`);
     initFrontEndTemplate(jsonData);

@@ -4,7 +4,7 @@ import {
   terminalQandA,
 } from '@/utils/helpers';
 import type { QuestionsAndAnswers } from '@/types/types';
-import { JsonTemplateFileNames, ProjectTypes } from '@/types/types';
+import { JsonTemplateFileName } from '@/types/types';
 import {
   AppTypes,
   UserFeedbackOptions,
@@ -44,7 +44,7 @@ const completeData = (data: Record<string, any>, appType:FrontendFrameworks):Com
   return allData;
 };
 
-const createProjectQuestion = async (data: Record<string, any>, appType: FrontendFrameworks) => {
+const createProjectQuestion = async (data: Record<string, any>) => {
   const { buildDefaultProject } = await terminalQandA([
     {
       type: 'confirm',
@@ -54,15 +54,7 @@ const createProjectQuestion = async (data: Record<string, any>, appType: Fronten
       default: false,
     },
   ]);
-  switch (appType) {
-    case ProjectTypes.REACT:
-    default:
-      createTemplateFile(JsonTemplateFileNames.BOILERPLATE_REACT, data);
-      break;
-    case ProjectTypes.VUE:
-      createTemplateFile(JsonTemplateFileNames.BOILERPLATE_VUE, data);
-      break;
-  }
+  createTemplateFile(JsonTemplateFileName.BOILERPLATE, data);
   if (buildDefaultProject) {
     build(data, DefaultProject);
   }
@@ -78,5 +70,5 @@ export const initFrontend = async (
     ...additionalAnswers,
   },
   appType);
-  createProjectQuestion(allData, appType);
+  createProjectQuestion(allData);
 };
