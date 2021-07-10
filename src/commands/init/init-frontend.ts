@@ -4,14 +4,14 @@ import {
   terminalQandA,
 } from '@/utils/helpers';
 import type { QuestionsAndAnswers } from '@/types/types';
-import { JsonTemplateFileNames, ProjectTypes } from '@/types/types';
+import { JsonTemplateFileNames } from '@/types/types';
 import {
   AppTypes,
   UserFeedbackOptions,
   Themes,
   DefaultProject,
 } from '@/types/frontend-types';
-import type { CompleteData } from '@/types/frontend-types';
+import type { CompleteData, FrontendFrameworks } from '@/types/frontend-types';
 import { build } from '@/commands/build/build';
 import { additionalFrontEndQuestions } from './followUpQuestions/frontend';
 import {
@@ -23,10 +23,10 @@ const createTemplateFile = (fileName: string, feedback: QuestionsAndAnswers) => 
   createFile(`${fileName}.json`, createJsonOutPut(feedback));
 };
 
-const completeData = (data: Record<string, any>):CompleteData => {
+const completeData = (data: Record<string, any>, appType:FrontendFrameworks):CompleteData => {
   const allData: CompleteData = {
     size: 'full', // 'full' | 600x200 # numbers translates to pixels
-    framework: ProjectTypes.REACT,
+    framework: appType,
     theme: Themes.DARK_BLUE,
     ...data,
     canOverwriteApp: true,
@@ -60,11 +60,15 @@ const createProjectQuestion = async (data: Record<string, any>) => {
   }
 };
 
-export const initReact = async (followUpAnswers: Record<string, any>) => {
+export const initFrontend = async (
+  followUpAnswers: Record<string, any>,
+  appType: FrontendFrameworks,
+) => {
   const additionalAnswers = await additionalFrontEndQuestions(followUpAnswers);
   const allData = completeData({
     ...followUpAnswers,
     ...additionalAnswers,
-  });
+  },
+  appType);
   createProjectQuestion(allData);
 };

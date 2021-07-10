@@ -1,13 +1,13 @@
 {
   "size": "full",
-  "framework": "React",
-  "theme": "dark red",
+  "framework": "Vue",
+  "theme": "dark blue",
   "appType": "spa",
   "language": "typescript",
   "eslint": true,
   "stateManagement": true,
   "cssProcessor": "sass/scss",
-  "UiFramework": "semantic ui",
+  "UiFramework": "vuetify",
   "testing": [
     "Unit (jest)",
     "E2E (cypress)"

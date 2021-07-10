@@ -139,23 +139,12 @@ export enum Themes {
 
 export type FrontendFrameworks = ProjectTypes.REACT|ProjectTypes.VUE
 
-export interface Paths {
-  src: string,
-  index: string,
-  app: string,
-  unitConfig: string,
-  components: string,
-  menu: string,
-  footer: string,
-  sidebar: string,
-  pages: string,
-  router: string,
-  state: string,
-  store: string,
-  styles: string,
-  types: string,
-  globals: string,
-  utils: string,
-  helpers: string,
-  e2e: string,
+export enum FileType {
+  FOLDER = 'folder',
+  FILE = 'file'
+}
+export interface Path {
+  path: string,
+  type: FileType.FOLDER|FileType.FILE,
+  if: boolean,
 }

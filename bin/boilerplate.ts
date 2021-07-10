@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import 'module-alias/register';
 import 'source-map-support/register';
 import { start } from '../src/main';

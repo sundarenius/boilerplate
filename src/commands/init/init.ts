@@ -5,8 +5,7 @@ import { frontend } from './followUpQuestions/frontend';
 import { cli } from './followUpQuestions/cli';
 import { frontendApi } from './followUpQuestions/frontend-api';
 import { monorepo } from './followUpQuestions/monorepo';
-import { initReact } from './init-react';
-import { initVue } from './init-vue';
+import { initFrontend } from './init-frontend';
 import { initCli } from './init-cli';
 import { initFrontApi } from './init-front-api';
 import { initMonorepo } from './init-monorepo';
@@ -30,10 +29,10 @@ const typeCaseInsesitive = (t: string): string => {
 const create = (type:string, followUpAnswers: Record<string, any>):void => {
   switch (type) {
     case ProjectTypes.REACT:
-      initReact(followUpAnswers);
+      initFrontend(followUpAnswers, ProjectTypes.REACT);
       break;
     case ProjectTypes.VUE:
-      initVue(followUpAnswers);
+      initFrontend(followUpAnswers, ProjectTypes.VUE);
       break;
     case ProjectTypes.FRONTEND_API:
       initFrontApi(followUpAnswers);

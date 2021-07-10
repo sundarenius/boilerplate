@@ -5,9 +5,7 @@ import { fileExists, readJsonFile } from '@/utils/helpers';
 import { initFrontEndTemplate } from '@/templates/frontend/init';
 
 const getJsonTemplate = () => {
-  // console.log(files);
   const fileFound = Object.values(JsonTemplateFileNames).find((val) => fileExists(`${val}.json`));
-  console.log(fileFound);
   if (fileFound) {
     const jsonData = readJsonFile(`${fileFound}.json`);
     initFrontEndTemplate(jsonData);
@@ -28,7 +26,6 @@ const getJsonTemplate = () => {
  *        (coming from the "--init" process)
  */
 export const build = (data: Partial<CompleteData>, defaultProject: null|string) => {
-  console.log('Welcome to build function');
   if (defaultProject === DefaultProject) {
     process.env.DEFAULT_PROJECT = defaultProject;
     console.log('Ok let\'s build an default project with your settings');

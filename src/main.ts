@@ -17,6 +17,9 @@ export const start = (arg: string|undefined) => {
       add();
       break;
     default:
+      console.log('No correct args was given');
+      console.log('Please provider one of following args:');
+      console.log(Object.values(CommandInitArgument));
       break;
   }
 };

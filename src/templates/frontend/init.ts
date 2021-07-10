@@ -1,13 +1,17 @@
 import { ProjectTypes } from '@/types/types';
 import type {
   CompleteData,
-  Paths,
+  Path,
 } from '@/types/frontend-types';
 import {
   UserFeedbackOptions,
   Languages,
   CompleteDataKeys,
+  FileType,
+  Testing,
+  AppTypes,
 } from '@/types/frontend-types';
+import { createProjectStructure } from './create-project';
 
 const getCmpntExt = (isTs:boolean, framework:any) => {
   switch (framework) {
@@ -19,15 +23,34 @@ const getCmpntExt = (isTs:boolean, framework:any) => {
   }
 };
 
-type FolderAndFilesStructure = (data: Partial<CompleteData>) => Paths
-const folderAndFilesStructure: FolderAndFilesStructure = (data) => {
-  const ts = data[UserFeedbackOptions.LANGUAGE] === Languages.TYPESCRIPT;
+type ValidateArr = (
+  opt: UserFeedbackOptions,
+  data: Partial<CompleteData>,
+  key: string,
+) => boolean
+const validateArr:ValidateArr = (opt, data, key) => {
+  const arr = data[opt];
+  if (Array.isArray(arr)) {
+    return arr.includes(key as never);
+  }
+  return false;
+};
+
+const equalStrings = (a:string, b:string): boolean =>
+  a.toLowerCase() === b.toLowerCase();
+
+type GetFolderAndFilesStructure = (data: Partial<CompleteData>) => Path[]
+const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
+  const ts = equalStrings(data[UserFeedbackOptions.LANGUAGE] as string, Languages.TYPESCRIPT);
+  // if isReact is false, it should be VUE. Currently only supporting those two.
+  const isReact = equalStrings(data[CompleteDataKeys.FRAMEWORK] as string, ProjectTypes.REACT);
   const cmpntExt = getCmpntExt(ts, data[CompleteDataKeys.FRAMEWORK]);
-  const storeType = data[CompleteDataKeys.FRAMEWORK] === ProjectTypes.REACT ? 'redux' : 'vuex';
+  const storeType = isReact ? 'redux' : 'vuex';
   const ext = ts ? '.ts' : '.js';
-  const routerFile = data[CompleteDataKeys.FRAMEWORK] === ProjectTypes.REACT
-    ? `Routes${cmpntExt}`
-    : `router${ext}`;
+  const routerFile = isReact ? `Routes${cmpntExt}` : `router${ext}`;
+  const router = Boolean(data[UserFeedbackOptions.ROUTING])
+    || data[UserFeedbackOptions.APP_TYPE] === AppTypes.SSR;
+  const stateManagement = Boolean(data[UserFeedbackOptions.STATE_MANAGEMENT]);
 
   /*
    * @returns {object} folder and files paths.
@@ -36,32 +59,125 @@ const folderAndFilesStructure: FolderAndFilesStructure = (data) => {
    * Add available components conditionally here (loop).
    */
 
-  const paths: Paths = {
-    src: 'src',
-    index: `src/index${ext}`,
-    app: `src/App${cmpntExt}`,
-    unitConfig: `src/unit-config${ext}`,
-    components: 'src/components',
-    menu: `src/components/Menu${ext}`,
-    footer: `src/components/Footer${ext}`,
-    sidebar: `src/components/Sidebar${ext}`,
-    pages: 'src/pages',
-    router: `src/${routerFile}`,
-    state: `src/${storeType}`,
-    store: `src/${storeType}/store${ext}`,
-    styles: 'src/styles',
-    types: 'src/types',
-    globals: `src/types/globals${ext}`,
-    utils: 'src/utils',
-    helpers: `src/utils/helpers${ext}`,
-    e2e: 'src/e2e',
-  };
+  const paths: Path[] = [
+    {
+      path: 'src',
+      type: FileType.FOLDER,
+      if: true,
+    },
+    {
+      path: `src/index${ext}`,
+      type: FileType.FILE,
+      if: true,
+    },
+    {
+      path: `src/App${cmpntExt}`,
+      type: FileType.FILE,
+      if: true,
+    },
+    {
+      path: `src/unit-config${ext}`,
+      type: FileType.FILE,
+      if: validateArr(
+        UserFeedbackOptions.TESTING,
+        data,
+        Testing.UNIT,
+      ),
+    },
+    {
+      path: 'src/docker',
+      type: FileType.FOLDER,
+      if: Boolean(data[UserFeedbackOptions.INCLUDE_DOCKER]),
+    },
+    {
+      path: 'src/components',
+      type: FileType.FOLDER,
+      if: true,
+    },
+    {
+      path: `src/components/Menu${ext}`,
+      type: FileType.FILE,
+      if: true,
+    },
+    {
+      path: `src/components/Footer${ext}`,
+      type: FileType.FILE,
+      if: true,
+    },
+    {
+      path: `src/components/Sidebar${ext}`,
+      type: FileType.FILE,
+      if: true,
+    },
+    {
+      path: 'src/pages',
+      type: FileType.FOLDER,
+      if: router,
+    },
+    {
+      path: 'src/router',
+      type: FileType.FOLDER,
+      if: router,
+    },
+    {
+      path: `src/router/${routerFile}`,
+      type: FileType.FILE,
+      if: router,
+    },
+    {
+      path: `src/${storeType}`,
+      type: FileType.FOLDER,
+      if: stateManagement,
+    },
+    {
+      path: `src/${storeType}/store${ext}`,
+      type: FileType.FILE,
+      if: stateManagement,
+    },
+    {
+      path: 'src/styles',
+      type: FileType.FOLDER,
+      if: true,
+    },
+    {
+      path: 'src/types',
+      type: FileType.FOLDER,
+      if: true,
+    },
+    {
+      path: `src/types/globals${ext}`,
+      type: FileType.FILE,
+      if: true,
+    },
+    {
+      path: 'src/utils',
+      type: FileType.FOLDER,
+      if: true,
+    },
+    {
+      path: `src/utils/helpers${ext}`,
+      type: FileType.FILE,
+      if: true,
+    },
+    {
+      path: 'src/e2e',
+      type: FileType.FOLDER,
+      if: validateArr(
+        UserFeedbackOptions.TESTING,
+        data,
+        Testing.E2E,
+      ),
+    },
+  ];
+
+  // eslint-disable-next-line no-param-reassign
+  paths.forEach((val: any) => { val.path = `boilerplate/${val.path}`; });
+  // add boilerplate prefix to paths, delete this when done
 
   return paths;
 };
 
 export const initFrontEndTemplate = (data: Partial<CompleteData>) => {
-  console.log('initFrontEndTemplate');
-  console.log(JSON.stringify(data, null, 4));
-  folderAndFilesStructure(data);
+  const folderFilesStructure = getFolderAndFilesStructure(data);
+  createProjectStructure(folderFilesStructure);
 };

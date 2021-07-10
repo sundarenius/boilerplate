@@ -17,8 +17,20 @@ export const createFile = (fileName: string, template: string) => {
     if (err) throw err;
 
     // success case, the file was saved
-    console.log(`${fileName} template saved!`);
+    console.log(`${fileName} saved!`);
   });
+};
+
+export const mkDir = (dir: string) => {
+  if (!fs.existsSync(dir)) {
+    try {
+      fs.mkdirSync(dir, {
+        recursive: true,
+      });
+    } catch (err) {
+      console.log('err occured');
+    }
+  }
 };
 
 export const createJsonOutPut = (input: Record<string, any>) => JSON.stringify(input, null, 2);
