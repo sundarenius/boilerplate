@@ -12,20 +12,47 @@ import { equalStrings } from '@/utils/helpers';
 
 type Data = Partial<CompleteData>;
 
+const semi = (airbnb: boolean) => (airbnb ? ';' : '');
+const comma = (airbnb: boolean) => (airbnb ? ',' : '');
+
 const reactTemplate = (name: string, ts: boolean, airbnb: boolean) =>
-  `${ts ? `import type { FC } from 'react'${airbnb ? ';' : ''}` : ''}
-${ts ? `\ninterface Props {}${airbnb ? ';' : ''}\n` : ''} 
+  `${ts ? `import type { FC } from 'react'${semi(airbnb)}` : ''}
+${ts ? `\ninterface Props {}${semi(airbnb)}\n` : ''} 
 const fileName = () => {
   const txt = 'fileName page';
   return <h1>{txt}</h1>;
-}${airbnb ? ';' : ''}
+}${semi(airbnb)}
   
-export default fileName${airbnb ? ';' : ''}
+export default fileName${semi(airbnb)}
 `;
 
-const vueTemplate = (name: string, ts: boolean, airbnb: boolean) => `
-${ts && 'vue'}
-${airbnb && 'airbnb'}
+const vueTemplate = (name: string, ts: boolean, airbnb: boolean) => 
+  `<template>
+<img alt="Vue logo" src="./assets/logo.png">
+<HelloWorld msg="Welcome to Your Vue.js App"/>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'${semi(airbnb)}
+
+export default {
+name: 'App',
+components: {
+  HelloWorld${comma(airbnb)}
+}
+}
+</script>
+
+<style>
+#app {
+font-family: Avenir, Helvetica, Arial, sans-serif;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+text-align: center;
+color: #2c3e50;
+margin-top: 60px;
+}
+</style>
 `;
 
 export const getFile = (fileName: string, framework: FrontendFrameworks, data: Data): string => {

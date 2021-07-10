@@ -12,14 +12,17 @@ import { equalStrings } from '@/utils/helpers';
 
 type Data = Partial<CompleteData>;
 
+const semi = (airbnb: boolean) => (airbnb ? ';' : '');
+const comma = (airbnb: boolean) => (airbnb ? ',' : '');
+
 const reactTemplate = (ts: boolean, airbnb: boolean) =>
-  `import React from 'react'${airbnb ? ';' : ''}
-import ReactDOM from 'react-dom'${airbnb ? ';' : ''}
-import './index.css'${airbnb ? ';' : ''}
-import App from './App'${airbnb ? ';' : ''}
-import { store } from './app/store'${airbnb ? ';' : ''}
-import { Provider } from 'react-redux'${airbnb ? ';' : ''}
-// import * as serviceWorker from './serviceWorker'${airbnb ? ';' : ''}
+  `import React from 'react'${semi(airbnb)}
+import ReactDOM from 'react-dom'${semi(airbnb)}
+import './index.css'${semi(airbnb)}
+import App from './App'${semi(airbnb)}
+import { store } from './app/store'${semi(airbnb)}
+import { Provider } from 'react-redux'${semi(airbnb)}
+// import * as serviceWorker from './serviceWorker'${semi(airbnb)}
 
 ReactDOM.render(
   <React.StrictMode>
@@ -28,7 +31,7 @@ ReactDOM.render(
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
-)${airbnb ? ';' : ''}
+)${semi(airbnb)}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
@@ -37,12 +40,12 @@ ReactDOM.render(
 `;
 
 const vueTemplate = (ts: boolean, airbnb: boolean) =>
-  `import { createApp } from 'vue'${airbnb ? ';' : ''}
-import App from './App.vue'${airbnb ? ';' : ''}
-import router from './router'${airbnb ? ';' : ''}
-import store from './store'${airbnb ? ';' : ''}
+  `import { createApp } from 'vue'${semi(airbnb)}
+import App from './App.vue'${semi(airbnb)}
+import router from './router'${semi(airbnb)}
+import store from './store'${semi(airbnb)}
 
-createApp(App).use(store).use(router).mount('#app')${airbnb ? ';' : ''}
+createApp(App).use(store).use(router).mount('#app')${semi(airbnb)}
 `;
 
 export const getMain = (framework: FrontendFrameworks, data: Data): string => {
