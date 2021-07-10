@@ -11,9 +11,10 @@ import { arrIncludes } from '@/utils/helpers';
 
 type Data = Partial<CompleteData>;
 
+const folder = process.cwd().split('/')[process.cwd().split('/').length - 1];
 const template = (scripts: string) =>
   `{
-  "name": "react-test",
+  "name": "${folder}",
   "version": "0.1.0",
   "private": true,
   "description": "An awesome project generated with boilerplate-cli",
@@ -67,6 +68,7 @@ export const getPackageJson = (framework: FrontendFrameworks, data: Data): strin
       scripts = vueScripts(data);
       break;
   }
-  // return template(scripts);
-  return 'package json template!!!';
+  const theTemplate:string = template(scripts);
+  const templateFixed = JSON.stringify(JSON.parse(theTemplate), null, 2);
+  return templateFixed;
 };

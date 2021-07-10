@@ -15,12 +15,12 @@ type Data = Partial<CompleteData>;
 const reactTemplate = (ts: boolean, airbnb: boolean) =>
   `${ts ? `import type { FC } from 'react'${airbnb ? ';' : ''}` : ''}
 ${ts ? `\ninterface Props {}${airbnb ? ';' : ''}\n` : ''} 
-const Main = () => {
-  const txt = 'Main page';
+const App = () => {
+  const txt = 'App page';
   return <h1>{txt}</h1>;
 }${airbnb ? ';' : ''}
   
-export default Main${airbnb ? ';' : ''}
+export default App${airbnb ? ';' : ''}
 `;
 
 const vueTemplate = (ts: boolean, airbnb: boolean) => `
@@ -28,7 +28,7 @@ ${ts && 'vue'}
 ${airbnb && 'airbnb'}
 `;
 
-export const getMain = (framework: FrontendFrameworks, data: Data): string => {
+export const getApp = (framework: FrontendFrameworks, data: Data): string => {
   const ts:boolean = equalStrings(data[UserFeedbackOptions.LANGUAGE] as string, Languages.TYPESCRIPT);
   const airbnb = data[UserFeedbackOptions.ESLINT_TYPE]
     && equalStrings(data[UserFeedbackOptions.ESLINT_TYPE] as string, ESLint.AIRBNB) as boolean;

@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { promisify } from 'util';
 import inquirer from 'inquirer';
 import type { QuestionsAndAnswers } from '@/types/types';
 import { ProjectTypes } from '@/types/types';
@@ -18,14 +19,14 @@ export const terminalQandA: TerminalQandA = async (questions) => {
 };
 
 export const createFile = (fileName: string, template: string) => {
-  const ctxPath: string = process.cwd();
-  fs.writeFile(`${ctxPath}/${fileName}`, template, (err: any) => {
-    // throws an error, you could also catch it here
-    if (err) throw err;
-
-    // success case, the file was saved
-    console.log(`${fileName} saved!`);
-  });
+  try {
+    const writeFileAsync = promisify(fs.writeFile);
+    const ctxPath: string = process.cwd();
+    writeFileAsync(`${ctxPath}/${fileName}`, template);
+  } catch (err) {
+    console.log(err);
+    console.log('Error at helper.ts -> createFile');
+  }
 };
 
 export const mkDir = (dir: string) => {
@@ -35,7 +36,8 @@ export const mkDir = (dir: string) => {
         recursive: true,
       });
     } catch (err) {
-      console.log('err occured');
+      console.log(err);
+      console.log('Error at helper.ts -> mkDir');
     }
   }
 };
@@ -78,3 +80,6 @@ export const arrIncludes:ArrIncludes = (opt, data, key) => {
   }
   return false;
 };
+
+export const equalStrings = (a:string, b:string): boolean =>
+  a.toLowerCase() === b.toLowerCase();

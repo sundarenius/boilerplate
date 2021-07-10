@@ -15,7 +15,12 @@ const createDirs = (structure: Path[]) => {
 const createFiles = (structure: Path[]) => {
   structure.forEach((val:Path) => {
     if (val.if && FileType.FILE) {
-      createFile(val.path, val.template || 'NO CONTENT YET!!');
+      try {
+        createFile(val.path, val.template || 'NO CONTENT YET!!');
+      } catch (err) {
+        console.log(err);
+        console.log('Error at create-projects.ts -> createFiles');
+      }
     }
   });
 };

@@ -12,8 +12,12 @@ import {
   Testing,
   AppTypes,
 } from '@/types/frontend-types';
-import { arrIncludes } from '@/utils/helpers';
-import { getPackageJson } from '@/templates/frontend/getTemplate';
+import { arrIncludes, equalStrings } from '@/utils/helpers';
+import {
+  getPackageJson,
+  getMain,
+  getApp,
+} from '@/templates/frontend/get-template';
 import { createProjectStructure } from './create-project';
 
 const getCmpntExt = (isTs:boolean, framework:any) => {
@@ -25,9 +29,6 @@ const getCmpntExt = (isTs:boolean, framework:any) => {
       return '.vue';
   }
 };
-
-const equalStrings = (a:string, b:string): boolean =>
-  a.toLowerCase() === b.toLowerCase();
 
 const getFrameWorkSpecificFilesFoldersNames = (data: Partial<CompleteData>) => {
   const ts = equalStrings(data[UserFeedbackOptions.LANGUAGE] as string, Languages.TYPESCRIPT);
@@ -88,11 +89,13 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
       path: `src/main${ext}`,
       type: FileType.FILE,
       if: true,
+      template: getMain(data[UserFeedbackOptions.APP_TYPE] as FrontendFrameworks, data),
     },
     {
       path: `src/App${cmpntExt}`,
       type: FileType.FILE,
       if: true,
+      template: getApp(data[UserFeedbackOptions.APP_TYPE] as FrontendFrameworks, data),
     },
     {
       path: `src/unit-config${ext}`,
