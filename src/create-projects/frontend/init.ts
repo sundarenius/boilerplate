@@ -17,6 +17,7 @@ import {
   getPackageJson,
   getMain,
   getApp,
+  getGitIgnore,
 } from '@/templates/frontend/get-template';
 import { createProjectStructure } from './create-project';
 
@@ -74,6 +75,12 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
    */
 
   const paths: Path[] = [
+    {
+      path: '.gitignore',
+      type: FileType.FILE,
+      if: true,
+      template: getGitIgnore(),
+    },
     {
       path: 'package.json',
       type: FileType.FILE,
