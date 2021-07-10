@@ -26,7 +26,7 @@ const fileName = () => {
 export default fileName${semi(airbnb)}
 `;
 
-const vueTemplate = (name: string, ts: boolean, airbnb: boolean) => 
+const vueTemplate = (name: string, ts: boolean, airbnb: boolean) =>
   `<template>
 <img alt="Vue logo" src="./assets/logo.png">
 <HelloWorld msg="Welcome to Your Vue.js App"/>

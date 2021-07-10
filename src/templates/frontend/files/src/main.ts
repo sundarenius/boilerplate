@@ -13,7 +13,7 @@ import { equalStrings } from '@/utils/helpers';
 type Data = Partial<CompleteData>;
 
 const semi = (airbnb: boolean) => (airbnb ? ';' : '');
-const comma = (airbnb: boolean) => (airbnb ? ',' : '');
+// const comma = (airbnb: boolean) => (airbnb ? ',' : '');
 
 const reactTemplate = (ts: boolean, airbnb: boolean) =>
   `import React from 'react'${semi(airbnb)}
