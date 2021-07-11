@@ -83,3 +83,6 @@ export const arrIncludes:ArrIncludes = (opt, data, key) => {
 
 export const equalStrings = (a:string, b:string): boolean =>
   a.toLowerCase() === b.toLowerCase();
+
+export const semi = (airbnb: boolean) => (airbnb ? ';' : '');
+export const comma = (airbnb: boolean) => (airbnb ? ',' : '');

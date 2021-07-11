@@ -149,3 +149,12 @@ export interface Path {
   if: boolean,
   template?: string
 }
+
+export interface Prop {
+  name: string,
+  type: any
+}
+export interface Template {
+  content: string,
+  props?: Array<Prop>
+}

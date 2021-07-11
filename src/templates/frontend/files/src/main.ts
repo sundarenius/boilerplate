@@ -8,12 +8,9 @@ import {
   Languages,
   ESLint,
 } from '@/types/frontend-types';
-import { equalStrings } from '@/utils/helpers';
+import { equalStrings, semi } from '@/utils/helpers';
 
 type Data = Partial<CompleteData>;
-
-const semi = (airbnb: boolean) => (airbnb ? ';' : '');
-// const comma = (airbnb: boolean) => (airbnb ? ',' : '');
 
 const reactTemplate = (ts: boolean, airbnb: boolean) =>
   `import React from 'react'${semi(airbnb)}
