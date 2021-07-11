@@ -2,34 +2,40 @@ import { ProjectTypes } from '@/types/types';
 import type {
   FrontendFrameworks,
   CompleteData,
-  Components,
   Template,
   Prop,
+  ComponentEnums,
 } from '@/types/frontend-types';
 import {
   UserFeedbackOptions,
   Languages,
   ESLint,
 } from '@/types/frontend-types';
-import { equalStrings, semi } from '@/utils/helpers';
+import { equalStrings, semi, comma } from '@/utils/helpers';
+
+// It's ok if indentation is not perfect, eslint cli can fix that later
 
 type Data = Partial<CompleteData>;
+
+const endOfLineComma = (index: number, props: Prop[], airbnb:boolean) =>
+  (index === props!.length - 1 ? comma(airbnb) : '');
 
 const reactTemplate = (
   name: string,
   ts: boolean,
   airbnb: boolean,
-  cmpnts: undefined|Components[],
+  cmpnts: undefined|ComponentEnums[],
   template: Template,
 ) =>
-  `${ts ? `import type { FC } from 'react'${semi(airbnb)}` : ''}
-${cmpnts
-    ? `${cmpnts.map((c: Components) =>
-      `import ${c.component} from '@/components/${c.component}'${semi(airbnb)}`).join('\n')}`
+  `${ts ? `import type { FC } from 'react'${semi(airbnb)}\n` : ''}${cmpnts
+    ? `${cmpnts.map((component: ComponentEnums) =>
+      `import ${component} from '@/components/${component}'${semi(airbnb)}`).join('\n')}`
     : ''}
 ${ts ? `\ninterface Props {${template.props
-    ? `${template.props.map((prop: Prop) =>
-      `${prop.name}: ${prop.type}'${semi(airbnb)}\n`)}`
+    ? `
+  ${template.props.map((prop: Prop, i: number) =>
+    `${prop.name}: ${prop.type}${endOfLineComma(i, template.props as Prop[], airbnb)}`).join(',\n')}
+`
     : ''}}${semi(airbnb)}\n` : ''} 
 ${template.content}
   
@@ -40,36 +46,35 @@ const vueTemplate = (
   name: string,
   ts: boolean,
   airbnb: boolean,
-  cmpnts: undefined|Components[],
+  cmpnts: undefined|ComponentEnums[],
   template: Template,
 ) =>
   `<template>
-${template.content}
+  ${template.content}
 </template>
 
 <script>
 ${cmpnts
-    ? `${cmpnts.map((c: Components) =>
-      `import ${c.component} from '@/components/${c.component}.vue'${semi(airbnb)}`).join('\n')}`
+    ? `${cmpnts.map((component: ComponentEnums) =>
+      `import ${component} from '@/components/${component}.vue'${semi(airbnb)}`).join('\n')}`
     : ''}
 
 export default {
   name: '${name}',
   ${cmpnts
     ? `components: {
-      ${cmpnts.map((c: Components) => `${c.component}${semi(airbnb)}\n,`)}
-    }`
+    ${cmpnts.map((component: ComponentEnums, i: number) =>
+    `${component}${endOfLineComma(i, template.props as Prop[], airbnb)}`).join(',\n')}
+  }${template.props ? ',' : ''}`
     : ''}
   ${template.props
     ? `props: {
-      ${template.props.map((prop: Prop) =>
-    `
-      ${prop.name}: {
+      ${template.props.map((prop: Prop, i) =>
+    `${prop.name}: {
         type: ${prop.type},
-        required: true${semi(airbnb)},
-      },
-    `)}
-    }`
+        required: true${comma(airbnb)}
+      }${endOfLineComma(i, template.props as Prop[], airbnb)}`).join(',\n')}
+    }${comma(airbnb)}`
     : ''}
 }
 </script>
@@ -78,13 +83,20 @@ export default {
 </style>
 `;
 
-export const getCmpnt = (
-  fileName: string,
+interface GetCmpnt {
+  name: string,
   framework: FrontendFrameworks,
   data: Data,
-  cmpnts: undefined|Components[],
+  cmpnts: undefined|ComponentEnums[],
   template: Template,
-): string => {
+}
+export const getCmpnt = ({
+  name,
+  framework,
+  data,
+  cmpnts,
+  template,
+}: GetCmpnt): string => {
   const ts:boolean = equalStrings(data[UserFeedbackOptions.LANGUAGE] as string, Languages.TYPESCRIPT);
   const airbnb = data[UserFeedbackOptions.ESLINT_TYPE]
     && equalStrings(data[UserFeedbackOptions.ESLINT_TYPE] as string, ESLint.AIRBNB) as boolean;
@@ -93,10 +105,10 @@ export const getCmpnt = (
   switch (framework) {
     default:
     case ProjectTypes.REACT:
-      content = reactTemplate(fileName, ts, airbnb as boolean, cmpnts, template);
+      content = reactTemplate(name, ts, airbnb as boolean, cmpnts, template);
       break;
     case ProjectTypes.VUE:
-      content = vueTemplate(fileName, ts, airbnb as boolean, cmpnts, template);
+      content = vueTemplate(name, ts, airbnb as boolean, cmpnts, template);
       break;
   }
   return content;

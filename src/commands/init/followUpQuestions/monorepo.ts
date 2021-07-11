@@ -1,4 +1,4 @@
-import { QuestionsAndAnswers } from '@/types/types';
+import type { QuestionsAndAnswers } from '@/types/types';
 
 export const monorepo:() => QuestionsAndAnswers[] = () => ([
   {

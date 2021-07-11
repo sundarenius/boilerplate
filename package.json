@@ -16,7 +16,9 @@
     "dev:build": "tsc-watch --onSuccess \"node dist/bin/boilerplate.js --build\"",
     "build": "tsc",
     "start:init": "npm run build && node dist/bin/boilerplate.js --init",
-    "start:build": "npm run build && node dist/bin/boilerplate.js --build"
+    "start:build": "npm run build && node dist/bin/boilerplate.js --build",
+    "lint:check": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
   },
   "keywords": [],
   "dependencies": {

@@ -152,9 +152,9 @@ export interface Path {
 
 export interface Prop {
   name: string,
-  type: any
+  type: string, // will be a type defitiniotn as a string template
 }
 export interface Template {
   content: string,
-  props?: Array<Prop>
+  props?: null|Array<Prop>
 }

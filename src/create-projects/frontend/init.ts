@@ -89,7 +89,7 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
       path: 'package.json',
       type: FileType.FILE,
       if: true,
-      template: getPackageJson(data[UserFeedbackOptions.APP_TYPE] as FrontendFrameworks, data),
+      template: getPackageJson(data[CompleteDataKeys.FRAMEWORK] as FrontendFrameworks, data),
     },
     {
       path: 'src',
@@ -100,13 +100,13 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
       path: `src/main${mainExt}`,
       type: FileType.FILE,
       if: true,
-      template: getMain(data[UserFeedbackOptions.APP_TYPE] as FrontendFrameworks, data),
+      template: getMain(data[CompleteDataKeys.FRAMEWORK] as FrontendFrameworks, data),
     },
     {
       path: `src/App${cmpntExt}`,
       type: FileType.FILE,
       if: true,
-      template: getApp(data[UserFeedbackOptions.APP_TYPE] as FrontendFrameworks, data),
+      template: getApp(data[CompleteDataKeys.FRAMEWORK] as FrontendFrameworks, data),
     },
     {
       path: `src/unit-config${ext}`,
