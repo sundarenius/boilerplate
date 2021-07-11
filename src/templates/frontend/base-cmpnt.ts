@@ -98,8 +98,7 @@ export const getCmpnt = ({
   template,
 }: GetCmpnt): string => {
   const ts:boolean = equalStrings(data[UserFeedbackOptions.LANGUAGE] as string, Languages.TYPESCRIPT);
-  const airbnb = data[UserFeedbackOptions.ESLINT_TYPE]
-    && equalStrings(data[UserFeedbackOptions.ESLINT_TYPE] as string, ESLint.AIRBNB) as boolean;
+  const airbnb = equalStrings(data[UserFeedbackOptions.ESLINT_TYPE] as string, ESLint.AIRBNB) as boolean;
   let content = '';
 
   switch (framework) {

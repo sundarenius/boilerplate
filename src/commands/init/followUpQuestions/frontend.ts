@@ -45,10 +45,13 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
     },
   },
   {
-    type: 'confirm',
-    name: UserFeedbackOptions.ESLINT,
-    message: 'Wanna use a linter (eslint)?',
-    default: true,
+    type: 'list',
+    name: UserFeedbackOptions.ESLINT_TYPE,
+    message: 'What type of eslint style do you wanna use?',
+    choices: Object.values(ESLint),
+    filter(val: any) {
+      return val.toLowerCase();
+    },
   },
   {
     type: 'confirm',
@@ -163,24 +166,6 @@ export const additionalFrontEndQuestions: AdditionalFrontEndQuestions = async (f
         ...historyRouterFeedback,
       };
     }
-  }
-
-  if (followUpAnswers.eslint) {
-    const eslintTypeFeedback = await terminalQandA([
-      {
-        type: 'list',
-        name: UserFeedbackOptions.ESLINT_TYPE,
-        message: 'What type of eslint style do you wanna use?',
-        choices: Object.values(ESLint),
-        filter(val: any) {
-          return val.toLowerCase();
-        },
-      },
-    ]);
-    additionalAnswers = {
-      ...additionalAnswers,
-      ...eslintTypeFeedback,
-    };
   }
 
   return additionalAnswers;

@@ -29,8 +29,7 @@ const vue = (ts: boolean):string =>
 
 export const getApp = (framework: FrontendFrameworks, data: Data): string => {
   const ts:boolean = equalStrings(data[UserFeedbackOptions.LANGUAGE] as string, Languages.TYPESCRIPT);
-  const airbnb = data[UserFeedbackOptions.ESLINT_TYPE]
-    && equalStrings(data[UserFeedbackOptions.ESLINT_TYPE] as string, ESLint.AIRBNB) as boolean;
+  const airbnb = equalStrings(data[UserFeedbackOptions.ESLINT_TYPE] as string, ESLint.AIRBNB) as boolean;
   let template = '';
 
   const baseCmpntArgs = (contentType: (ts: boolean, airbnb: boolean) => string) => ({

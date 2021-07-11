@@ -34,7 +34,6 @@ export interface CompleteData extends UserFeedbackOptionsInterface {
 export enum UserFeedbackOptions {
   APP_TYPE = 'appType',
   LANGUAGE = 'language',
-  ESLINT = 'eslint',
   STATE_MANAGEMENT = 'stateManagement', // Impacts the app
   CSS_PROCESSOR = 'cssProcessor',
   TESTING = 'testing',

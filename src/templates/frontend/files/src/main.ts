@@ -47,8 +47,7 @@ createApp(App).use(store).use(router).mount('#app')${semi(airbnb)}
 
 export const getMain = (framework: FrontendFrameworks, data: Data): string => {
   const ts:boolean = equalStrings(data[UserFeedbackOptions.LANGUAGE] as string, Languages.TYPESCRIPT);
-  const airbnb = data[UserFeedbackOptions.ESLINT_TYPE]
-    && equalStrings(data[UserFeedbackOptions.ESLINT_TYPE] as string, ESLint.AIRBNB) as boolean;
+  const airbnb = equalStrings(data[UserFeedbackOptions.ESLINT_TYPE] as string, ESLint.AIRBNB) as boolean;
   let template = '';
 
   switch (framework) {
