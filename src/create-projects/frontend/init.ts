@@ -80,6 +80,11 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
 
   const paths: Path[] = [
     {
+      path: 'public', // Should contain build templates
+      type: FileType.FOLDER,
+      if: true,
+    },
+    {
       path: '.gitignore',
       type: FileType.FILE,
       if: true,
