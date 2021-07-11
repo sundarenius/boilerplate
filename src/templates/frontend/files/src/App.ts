@@ -7,6 +7,7 @@ import {
   UserFeedbackOptions,
   Languages,
   ESLint,
+  ComponentEnums,
 } from '@/types/frontend-types';
 import { equalStrings, semi } from '@/utils/helpers';
 import { getCmpnt } from '@/templates/frontend/base-cmpnt';
@@ -17,11 +18,11 @@ type Data = Partial<CompleteData>;
 
 const react = (ts: boolean, airbnb: boolean):string =>
   `const ${name} = () => {
-  const txt = '${name} page';
+  const txt = '${name} page'${semi(airbnb)}
   return <h1>{txt}</h1>${semi(airbnb)}
 }${semi(airbnb)}`;
 
-const vue = (ts: boolean, airbnb: boolean):string =>
+const vue = (ts: boolean):string =>
   `<div>
   ${name} ${ts ? 'typescript' : 'javsacript'} content !!
 </div>`;
@@ -39,7 +40,14 @@ export const getApp = (framework: FrontendFrameworks, data: Data): string => {
         name,
         framework,
         data,
-        undefined,
+        [
+          {
+            component: ComponentEnums.MENU,
+          },
+          {
+            component: ComponentEnums.FOOTER,
+          },
+        ],
         {
           content: react(ts as boolean, airbnb as boolean),
         },
@@ -47,12 +55,12 @@ export const getApp = (framework: FrontendFrameworks, data: Data): string => {
       break;
     case ProjectTypes.VUE:
       template = getCmpnt(
-        'App',
+        name,
         framework,
         data,
         undefined,
         {
-          content: vue(ts as boolean, airbnb as boolean),
+          content: vue(ts as boolean),
         },
       );
       break;

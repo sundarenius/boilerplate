@@ -25,7 +25,7 @@ const reactTemplate = (
   `${ts ? `import type { FC } from 'react'${semi(airbnb)}` : ''}
 ${cmpnts
     ? `${cmpnts.map((c: Components) =>
-      `import ${c.component} from '@/components/${c.component}'${semi(airbnb)}\n`)}`
+      `import ${c.component} from '@/components/${c.component}'${semi(airbnb)}`).join('\n')}`
     : ''}
 ${ts ? `\ninterface Props {${template.props
     ? `${template.props.map((prop: Prop) =>
@@ -50,7 +50,7 @@ ${template.content}
 <script>
 ${cmpnts
     ? `${cmpnts.map((c: Components) =>
-      `import ${c.component} from '@/components/${c.component}.vue'${semi(airbnb)}\n`)}`
+      `import ${c.component} from '@/components/${c.component}.vue'${semi(airbnb)}`).join('\n')}`
     : ''}
 
 export default {
