@@ -59,15 +59,16 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
     message: 'Do you need global state management?',
     default: true,
   },
-  {
-    type: 'list',
-    name: UserFeedbackOptions.CSS_PROCESSOR,
-    message: 'Pick a CSS pre-processor',
-    choices: Object.values(CssPreProcessor),
-    filter(val: any) {
-      return val.toLowerCase();
-    },
-  },
+  // Just go with SASS .scss for all for now
+  // {
+  //   type: 'list',
+  //   name: UserFeedbackOptions.CSS_PROCESSOR,
+  //   message: 'Pick a CSS pre-processor',
+  //   choices: Object.values(CssPreProcessor),
+  //   filter(val: any) {
+  //     return val.toLowerCase();
+  //   },
+  // },
   {
     type: 'list',
     name: UserFeedbackOptions.UI_FRAMEWORK,
@@ -102,19 +103,13 @@ export const frontend:(type:string) => QuestionsAndAnswers[] = (type) => ([
   },
   {
     type: 'confirm',
-    name: UserFeedbackOptions.INCLUDE_DOCKER,
-    message: 'Do you wanna include docker?',
-    default: true,
-  },
-  {
-    type: 'confirm',
     name: UserFeedbackOptions.AUTH_REQUIRED,
     message: 'Should one be authenticated to use the app?',
     default: false,
   },
   {
     type: 'checkbox',
-    message: 'Include base components for all views?',
+    message: 'Include base components for all views',
     name: UserFeedbackOptions.BASE_COMPONENTS,
     choices: [
       // eslint-disable-next-line max-len

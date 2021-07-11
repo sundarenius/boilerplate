@@ -125,7 +125,7 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
     {
       path: 'src/docker',
       type: FileType.FOLDER,
-      if: Boolean(data[UserFeedbackOptions.INCLUDE_DOCKER]),
+      if: true,
     },
     {
       path: 'src/components',
