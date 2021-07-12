@@ -18,14 +18,16 @@ export const terminalQandA: TerminalQandA = async (questions) => {
   return answers;
 };
 
-export const createFile = (fileName: string, template: string) => {
+export const createFile = async (fileName: string, template: string) => {
   try {
     const writeFileAsync = promisify(fs.writeFile);
     const ctxPath: string = process.cwd();
-    writeFileAsync(`${ctxPath}/${fileName}`, template);
+    const res = await writeFileAsync(`${ctxPath}/${fileName}`, template);
+    return res;
   } catch (err) {
     console.log(err);
-    console.log('Error at helper.ts -> createFile');
+    console.log('Error at helper.ts -> createFile ', fileName);
+    return null;
   }
 };
 
