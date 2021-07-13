@@ -1,4 +1,3 @@
-import { execSync } from 'child_process';
 import { ProjectTypes } from '@/types/types';
 import type {
   CompleteData,
@@ -12,6 +11,8 @@ import {
   FileType,
   Testing,
   AppTypes,
+  ComponentEnums,
+  RouterFiles,
 } from '@/types/frontend-types';
 import { arrIncludes, equalStrings } from '@/utils/helpers';
 import {
@@ -41,14 +42,14 @@ const getFrameWorkSpecificFilesFoldersNames = (data: Partial<CompleteData>) => {
     default:
       return {
         storeType: 'redux',
-        routerFile: `Routes${cmpntExt}`,
+        routerFile: `${RouterFiles.ROUTES}${cmpntExt}`,
         cmpntExt,
         ext,
       };
     case (ProjectTypes.VUE!.toLocaleLowerCase()):
       return {
         storeType: 'vuex',
-        routerFile: `router${ext}`,
+        routerFile: `${RouterFiles.ROUTER}${ext}`,
         cmpntExt,
         ext,
       };
@@ -134,17 +135,17 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
       if: true,
     },
     {
-      path: `src/components/Menu${ext}`,
+      path: `src/components/${ComponentEnums.MENU}${ext}`,
       type: FileType.FILE,
       if: true,
     },
     {
-      path: `src/components/Footer${ext}`,
+      path: `src/components/${ComponentEnums.FOOTER}${ext}`,
       type: FileType.FILE,
       if: true,
     },
     {
-      path: `src/components/Sidebar${ext}`,
+      path: `src/components/${ComponentEnums.SIDEBAR}${ext}`,
       type: FileType.FILE,
       if: true,
     },
@@ -209,10 +210,10 @@ const getFolderAndFilesStructure: GetFolderAndFilesStructure = (data) => {
     },
   ];
 
-  // process.env.FOLDER_PREFIX = 'boilerplate'; // Delete this later
-  // // eslint-disable-next-line no-param-reassign
-  // paths.forEach((val: any) => { val.path = `${process.env.FOLDER_PREFIX}/${val.path}`; });
-  // // add boilerplate prefix to paths, delete this when done
+  process.env.FOLDER_PREFIX = 'boilerplate'; // Delete this later
+  // eslint-disable-next-line no-param-reassign
+  paths.forEach((val: any) => { val.path = `${process.env.FOLDER_PREFIX}/${val.path}`; });
+  // add boilerplate prefix to paths, delete this when done
 
   return paths;
 };
@@ -262,8 +263,8 @@ const reactShell = (data: Partial<CompleteData>) => {
     data,
   );
   console.log('Building react project ...');
-  console.log((execSync(`yarn add ${dependecies.join(' ')}`).toString()));
-  console.log(execSync(`yarn add -D ${devDependecies.join(' ')}`).toString());
+  // console.log((execSync(`yarn add ${dependecies.join(' ')}`).toString()));
+  // console.log(execSync(`yarn add -D ${devDependecies.join(' ')}`).toString());
 };
 
 const vueShell = (data: Partial<CompleteData>) => {

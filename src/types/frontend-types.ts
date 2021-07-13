@@ -99,13 +99,21 @@ export enum VueUiFrameWorks {
  *     - inputs/dropdowns/textareas
  */
 
+export enum RouterFiles {
+  ROUTER = 'router',
+  ROUTES = 'Routes',
+}
+export interface CustomPathCmpnt {
+  cmpnt: string|null,
+  path: string,
+}
 export enum ComponentEnums {
   MENU = 'Menu',
   FOOTER = 'Footer',
   SIDEBAR = 'Sidebar'
 }
 export interface Components {
-  component: ComponentEnums
+  component: ComponentEnums,
 }
 
 export interface RoutesData {

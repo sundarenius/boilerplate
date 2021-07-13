@@ -5,6 +5,7 @@ import type {
   Template,
   Prop,
   ComponentEnums,
+  CustomPathCmpnt,
 } from '@/types/frontend-types';
 import {
   UserFeedbackOptions,
@@ -16,6 +17,7 @@ import { equalStrings, semi, comma } from '@/utils/helpers';
 // It's ok if indentation is not perfect, eslint cli can fix that later
 
 type Data = Partial<CompleteData>;
+type Cmpnts = undefined|Array<ComponentEnums|CustomPathCmpnt>;
 
 const endOfLineComma = (index: number, props: Prop[], airbnb:boolean) =>
   (index === props!.length - 1 ? comma(airbnb) : '');
@@ -24,12 +26,15 @@ const reactTemplate = (
   name: string,
   ts: boolean,
   airbnb: boolean,
-  cmpnts: undefined|ComponentEnums[],
+  cmpnts: Cmpnts,
   template: Template,
 ) =>
   `${ts ? `import type { FC } from 'react'${semi(airbnb)}\n` : ''}${cmpnts
-    ? `${cmpnts.map((component: ComponentEnums) =>
-      `import ${component} from '@/components/${component}'${semi(airbnb)}`).join('\n')}`
+    ? `${cmpnts.map((component: ComponentEnums|CustomPathCmpnt) =>
+      `${typeof component === 'string'
+        ? `import ${component} from '@/components/${component}'${semi(airbnb)}`
+        : `import ${component.cmpnt} from '${component.path}${component.cmpnt}'${semi(airbnb)}`
+      }`).join('\n')}`
     : ''}
 ${ts ? `\ninterface Props {${template.props
     ? `
@@ -46,7 +51,7 @@ const vueTemplate = (
   name: string,
   ts: boolean,
   airbnb: boolean,
-  cmpnts: undefined|ComponentEnums[],
+  cmpnts: Cmpnts,
   template: Template,
 ) =>
   `<template>
@@ -55,16 +60,21 @@ const vueTemplate = (
 
 <script>
 ${cmpnts
-    ? `${cmpnts.map((component: ComponentEnums) =>
-      `import ${component} from '@/components/${component}.vue'${semi(airbnb)}`).join('\n')}`
+    ? `${cmpnts.map((component: ComponentEnums|CustomPathCmpnt) =>
+      `${typeof component === 'string'
+        ? `import ${component} from '@/components/${component}'${semi(airbnb)}`
+        : `import ${component.cmpnt} from '${component.path}${component.cmpnt}'${semi(airbnb)}`
+      }`).join('\n')}`
     : ''}
 
 export default {
   name: '${name}',
   ${cmpnts
     ? `components: {
-    ${cmpnts.map((component: ComponentEnums, i: number) =>
-    `${component}${endOfLineComma(i, template.props as Prop[], airbnb)}`).join(',\n')}
+    ${cmpnts.map((component: ComponentEnums|CustomPathCmpnt, i: number) =>
+    `${typeof component === 'string'
+      ? component
+      : component.cmpnt}${endOfLineComma(i, template.props as Prop[], airbnb)}`).join(',\n')}
   }${template.props ? ',' : ''}`
     : ''}
   ${template.props
@@ -87,7 +97,7 @@ interface GetCmpnt {
   name: string,
   framework: FrontendFrameworks,
   data: Data,
-  cmpnts: undefined|ComponentEnums[],
+  cmpnts: Cmpnts,
   template: Template,
 }
 export const getCmpnt = ({
