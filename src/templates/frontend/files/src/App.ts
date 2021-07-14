@@ -12,7 +12,7 @@ import {
   CompleteDataKeys,
   RouterFiles,
 } from '@/types/frontend-types';
-import { equalStrings, semi } from '@/utils/helpers';
+import { equalStrings, semi, arrIncludes } from '@/utils/helpers';
 import { getCmpnt } from '@/templates/frontend/base-cmpnt';
 
 const name = 'App';
@@ -25,16 +25,21 @@ interface Params {
   airbnb: boolean
 }
 
+const menu = (render: boolean) => (render ? '\n<Menu />' : '');
 const react = ({ airbnb, data }: Params):string =>
   `const ${name} = () => {
   const txt = '${name} page'${semi(airbnb)}
   return (
-    <h1>
+    <>${menu(arrIncludes(
+    UserFeedbackOptions.BASE_COMPONENTS,
+    data,
+    ComponentEnums.MENU,
+  ))}
       ${data[UserFeedbackOptions.ROUTING]
         || equalStrings(data[UserFeedbackOptions.APP_TYPE] as string, AppTypes.SSR)
     ? `<${RouterFiles.ROUTES} />`
     : ''}
-    </h1>
+    </>
   )${semi(airbnb)}
 }${semi(airbnb)}`;
 

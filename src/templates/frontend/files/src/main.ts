@@ -15,11 +15,11 @@ type Data = Partial<CompleteData>;
 const reactTemplate = (ts: boolean, airbnb: boolean) =>
   `import React from 'react'${semi(airbnb)}
 import ReactDOM from 'react-dom'${semi(airbnb)}
-import './index.css'${semi(airbnb)}
-import App from './App'${semi(airbnb)}
-import { store } from './app/store'${semi(airbnb)}
+import '@/styles/main.scss'${semi(airbnb)}
+import App from '@/App'${semi(airbnb)}
+import { store } from '@/app/store'${semi(airbnb)}
 import { Provider } from 'react-redux'${semi(airbnb)}
-// import * as serviceWorker from './serviceWorker'${semi(airbnb)}
+// import * as serviceWorker from '@/serviceWorker'${semi(airbnb)}
 
 ReactDOM.render(
   <React.StrictMode>
@@ -38,9 +38,9 @@ ReactDOM.render(
 
 const vueTemplate = (ts: boolean, airbnb: boolean) =>
   `import { createApp } from 'vue'${semi(airbnb)}
-import App from './App.vue'${semi(airbnb)}
-import router from './router'${semi(airbnb)}
-import store from './store'${semi(airbnb)}
+import App from '@/App.vue'${semi(airbnb)}
+import router from '@/router'${semi(airbnb)}
+import store from '@/store'${semi(airbnb)}
 
 createApp(App).use(store).use(router).mount('#app')${semi(airbnb)}
 `;
